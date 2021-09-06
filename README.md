@@ -6,9 +6,9 @@
 - [x]  Setup vuetify
     - [x]  Colors
 - [ ]  Setup Express App
-    - [ ]  folder structure
-    - [ ]  Mongo setup
-    - [ ]  g-apis
+    - [x]  folder structure
+    - [x]  Mongo setup
+    - [x]  logger
 - [ ]  Setup axios
   - [ ]  interceptors
   - [ ]  CORS
@@ -27,3 +27,4 @@
     - [ ]  db
     - [ ]  models
     - [ ]  middleware - (auth → jwt checker)
+    - [ ]  g-apis

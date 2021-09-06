@@ -14,6 +14,11 @@ export default {
     ]
   },
 
+  // Express server settings
+  serverMiddleware: {
+    '/api': '~/api'
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
