@@ -67,6 +67,7 @@
             color="primary"
             nuxt
             to="/inspire"
+            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
           >
             Continue
           </v-btn>
