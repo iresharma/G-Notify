@@ -1,5 +1,5 @@
 {
-  "name": "emailer",
+  "name": "G-Notify",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.15.1",
     "express": "^4.17.1",
+    "googleapis": "^39.2.0",
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
     "nuxt": "^2.15.7",

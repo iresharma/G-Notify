@@ -1,78 +1,139 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
+  <div class="container">
+    <h1 style="color: #4285F4">
+      G-Notify
+    </h1>
+    <p>
+      A simple HTML based G-Notify for gmail accounts.<br>
+      Made by <code>@iresharma</code> maintained by <code>@GDSC-NIE</code>
+    </p>
+    <p v-if="isLogged">
+      <v-btn elevation="3" color="primary">
+        Dashboard
+      </v-btn>
+      <v-btn elevation="0" color="accent" outlined rounded>
+        <v-icon dense color="accent darken-2" class="mx-2">
+          mdi-github
+        </v-icon>
+        Contribute
+      </v-btn>
+    </p>
+    <p v-else>
+      <v-btn elevation="3" color="primary" @click="authorize">
+        Get Started
+      </v-btn>
+      <v-btn elevation="0" color="accent" outlined rounded>
+        Learn More
+      </v-btn>
+    </p>
+    <v-dialog
+      v-model="dialog"
+      persistent
+    >
       <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+        <v-card-title>
+          <span class="text-h5">Enter the code</span>
         </v-card-title>
         <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
+          <v-container>
+            <v-text-field
+              v-model="userCode"
+              label="Enter code from the other page"
+              required
+            />
+          </v-container>
+          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            color="blue darken-1"
+            text
+            @click="dialog = false"
           >
-            Continue
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="sendCode"
+          >
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-col>
-  </v-row>
+    </v-dialog>
+  </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  data () {
+    return {
+      dialog: false,
+      userCode: null
+    }
+  },
+  head () {
+    return {
+      title: 'Home'
+    }
+  },
+  computed: {
+    ...mapGetters({ isLogged: 'auth/isLogged' })
+  },
+  methods: {
+    authorize () {
+      this.$axios.get('/api/auth', {
+        params: {},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        this.dialog = true
+        window.open(response.data, '_blank')
+      }).catch((error) => {
+        this.$store.commit('systemConfig/SNACKBAR', {
+          show: true,
+          type: 'danger',
+          text: error.message
+        })
+      })
+    },
+    sendCode () {
+      this.$axios.post('/api/auth', {
+        code: this.userCode
+      }, {
+        params: {},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => console.log(response)).catch(error => console.log(error))
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  width: 100%;
+
+  h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+}
+</style>

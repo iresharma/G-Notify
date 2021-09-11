@@ -20,6 +20,7 @@ mongoose
   })
   .then(() => console.log('Database Connected'))
   .catch(err => console.log(err))
+console.log('hello')
 
 mongoose.Promise = global.Promise
 

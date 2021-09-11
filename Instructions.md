@@ -1,4 +1,4 @@
-# emailer
+# G-Notify
 
 ## Build Setup
 

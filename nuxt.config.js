@@ -1,8 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - emailer',
-    title: 'emailer',
+    titleTemplate: '%s - G-Notify',
+    title: 'G-Notify',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,6 +12,11 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  // router config
+  router: {
+    middleware: ['auth']
   },
 
   // Express server settings
@@ -70,8 +75,17 @@ export default {
       themes: {
         dark: {
           primary: '#4285F4',
-          accent: '#4285F4',
-          secondary: '#64B5F6',
+          accent: '#42A5F5',
+          secondary: '#2196F3',
+          info: '#81C784',
+          warning: '#FBBC04',
+          error: '#EA4335',
+          success: '#34A853'
+        },
+        light: {
+          primary: '#4285F4',
+          accent: '#42A5F5',
+          secondary: '#2196F3',
           info: '#81C784',
           warning: '#FBBC04',
           error: '#EA4335',
