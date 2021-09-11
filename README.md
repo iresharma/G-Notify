@@ -9,9 +9,9 @@
     - [x]  folder structure
     - [x]  Mongo setup
     - [x]  logger
-- [ ]  Setup axios
-  - [ ]  interceptors
-  - [ ]  CORS
+- [x]  Setup axios
+  - [x]  interceptors
+  - [x]  CORS
 - [ ]  Views
     - [ ]  login
     - [ ]  register
@@ -22,9 +22,7 @@
     - [ ]  Templating guide
     - [ ]  send
 - [ ]  Express app
-    - [ ]  auth - (jwt)
     - [ ]  mailing logic (controller)
     - [ ]  db
     - [ ]  models
-    - [ ]  middleware - (auth → jwt checker)
     - [ ]  g-apis
