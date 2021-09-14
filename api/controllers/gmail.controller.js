@@ -36,4 +36,14 @@ const getToken = (code) => {
   })
 }
 
-module.exports = { getCredLink, getToken }
+const sendMessage = (token, message) => {
+  const authClient = new google.auth.OAuth2(
+    process.env.GMAIL_CLIENT_ID,
+    process.env.GMAIL_CLIENT_SECRET,
+    process.env.GMAIL_REDIRECT_URL
+  ).setCredentials(JSON.parse(token))
+  const gmail = google.gmail({ version: 'v1', auth: authClient })
+  gmail.users.messages.send({})
+}
+
+module.exports = { getCredLink, getToken, sendMessage }

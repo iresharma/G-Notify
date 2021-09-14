@@ -13,16 +13,17 @@ export const getters = {
 
 //* mutations
 export const mutations = {
-  setUser (state, payload, field = null) {
+  SET_USER (state, payload, field = null) {
     if (field) {
       state.user[field] = payload
     } else {
       state.user = payload
     }
-    localStorage.setItem('user', JSON.stringify('user'))
+    localStorage.setItem('user', JSON.stringify(payload))
   },
-  loadUser (state) {
+  LOAD_USER (state) {
     if (localStorage.getItem('user')) {
+      console.log('user loaded')
       state.user = JSON.parse(localStorage.getItem('user'))
     }
   }

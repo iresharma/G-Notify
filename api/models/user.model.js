@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema(
     //   lowercase: true,
     //   match: /[a-z0–9!#$%&’*+/=?^_`{|}~-]+(?:\.[a-z0–9!#$%&’*+/=?                  ^_`{|}~-]+)*@(?:[a-z0–9](?:[a-z0–9-]*[a-z0–9])?\.)+[a-z0–9](?:[a-z0–  9-]*[a-z0–9])?/
     // },
-    token: Object
+    token: Object,
+    user: Object
   },
   { database: 'g-notify', collection: 'users' }
 )

@@ -15,10 +15,9 @@
         color="secondary"
       >
         <v-avatar size="25" color="success">
-          <v-icon v-if="!user.photoUrl" dark>
+          <v-icon dark>
             mdi-account-circle
           </v-icon>
-          <img v-else :src="user.photoUrl" alt="User profile">
         </v-avatar>
         <b>
           {{ user.name }}

@@ -1,4 +1,5 @@
 // Database functions
+const mongoose = require('mongoose')
 const userModel = require('../models/user.model')
 
 const getUserData = (user) => {
@@ -15,7 +16,7 @@ const getUserData = (user) => {
 
 const createUser = (user, token) => {
   return new Promise((resolve, reject) => {
-    userModel.create({ ...user, token }, (err, data) => {
+    userModel.create({ user, token, _id: mongoose.Types.ObjectId() }, (err, data) => {
       if (err) {
         reject(err)
       } else {

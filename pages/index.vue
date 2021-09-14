@@ -26,38 +26,34 @@
         Learn More
       </v-btn>
     </p>
-    <v-dialog
-      v-model="dialog"
-      persistent
-    >
+    <v-dialog v-model="dialog" persistent width="500">
       <v-card>
         <v-card-title>
           <span class="text-h5">Enter the code</span>
         </v-card-title>
         <v-card-text>
-          <v-container>
-            <v-text-field
-              v-model="userCode"
-              label="Enter code from the other page"
-              required
-            />
-          </v-container>
-          <small>*indicates required field</small>
+          <v-text-field
+            v-model="userCode"
+            label="Enter code from the other page"
+            required
+          />
+          <v-text-field
+            v-model="user.name"
+            label="Name"
+            required
+          />
+          <v-text-field
+            v-model="user.email"
+            label="Email"
+            required
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
+          <v-btn color="blue darken-1" text @click="dialog = false">
             Close
           </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="sendCode"
-          >
+          <v-btn color="blue darken-1" text @click="sendCode">
             Save
           </v-btn>
         </v-card-actions>
@@ -73,7 +69,11 @@ export default {
   data () {
     return {
       dialog: false,
-      userCode: null
+      userCode: null,
+      user: {
+        name: null,
+        email: null
+      }
     }
   },
   head () {
@@ -84,33 +84,55 @@ export default {
   computed: {
     ...mapGetters({ isLogged: 'auth/isLogged' })
   },
+  mounted () {
+    this.$store.commit('auth/LOAD_USER')
+  },
   methods: {
     authorize () {
-      this.$axios.get('/api/auth', {
-        params: {},
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then((response) => {
-        this.dialog = true
-        window.open(response.data, '_blank')
-      }).catch((error) => {
-        this.$store.commit('systemConfig/SNACKBAR', {
+      this.$axios
+        .get('/api/auth', {
+          params: {},
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          this.dialog = true
+          window.open(response.data, '_blank')
+        })
+        .catch((error) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'danger',
+            text: error.message
+          })
+        })
+    },
+    sendCode () {
+      this.$axios
+        .post(
+          '/api/auth',
+          {
+            code: this.userCode,
+            user: this.user
+          },
+          {
+            params: {},
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        .then((response) => {
+          this.dialog = false
+          this.$store.commit('auth/SET_USER', response.data.user)
+          this.$router.push('/dashboard')
+        })
+        .catch(error => this.$store.commit('systemConfig/SNACKBAR', {
           show: true,
           type: 'danger',
           text: error.message
-        })
-      })
-    },
-    sendCode () {
-      this.$axios.post('/api/auth', {
-        code: this.userCode
-      }, {
-        params: {},
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(response => console.log(response)).catch(error => console.log(error))
+        }))
     }
   }
 }
