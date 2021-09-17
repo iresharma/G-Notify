@@ -1,32 +1,6 @@
 <template>
   <v-app dark>
-    <v-app-bar
-      absolute
-      app
-    >
-      <v-toolbar-title>G-Notify</v-toolbar-title>
-      <v-spacer />
-      <v-btn icon>
-        <v-icon>mdi-github</v-icon>
-      </v-btn>
-      <v-btn
-        v-if="isLogged"
-        elevation="0"
-        color="secondary"
-      >
-        <v-avatar size="25" color="success">
-          <v-icon dark>
-            mdi-account-circle
-          </v-icon>
-        </v-avatar>
-        <b>
-          {{ user.name }}
-        </b>
-      </v-btn>
-      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-        <v-icon>mdi-theme-light-dark</v-icon>
-      </v-btn>
-    </v-app-bar>
+    <app-bar />
     <v-sheet style="margin-top: 4rem;">
       <Nuxt />
     </v-sheet>
@@ -58,13 +32,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import CustFooter from '@/components/footer.vue'
+import AppBar from '@/components/appbar.vue'
 
 export default {
   components: {
-    CustFooter
+    CustFooter,
+    AppBar
   },
   computed: {
-    ...mapGetters({ isLogged: 'auth/isLogged', user: 'auth/user', snackbar: 'systemConfig/snackbar' })
+    ...mapGetters({ snackbar: 'systemConfig/snackbar' })
   }
 }
 </script>

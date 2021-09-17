@@ -26,4 +26,10 @@ const createUser = (user, token) => {
   })
 }
 
-module.exports = { getUserData, createUser }
+const getTemplates = (user) => {
+  return new Promise((resolve, reject) => {
+    //
+  })
+}
+
+module.exports = { getUserData, createUser, getTemplates }

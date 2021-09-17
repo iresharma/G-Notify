@@ -8,10 +8,10 @@
       Made by <code>@iresharma</code> maintained by <code>@GDSC-NIE</code>
     </p>
     <p v-if="isLogged">
-      <v-btn elevation="3" color="primary">
+      <v-btn elevation="3" color="primary" @click="$router.push('/home')">
         Dashboard
       </v-btn>
-      <v-btn elevation="0" color="accent" outlined rounded>
+      <v-btn elevation="0" color="accent" plain>
         <v-icon dense color="accent darken-2" class="mx-2">
           mdi-github
         </v-icon>
@@ -22,7 +22,7 @@
       <v-btn elevation="3" color="primary" @click="authorize">
         Get Started
       </v-btn>
-      <v-btn elevation="0" color="accent" outlined rounded>
+      <v-btn elevation="0" color="accent" plain>
         Learn More
       </v-btn>
     </p>
