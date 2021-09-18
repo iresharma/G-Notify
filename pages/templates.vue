@@ -22,6 +22,18 @@
 </template>
 <script>
 export default {
-  layout: 'dashboard'
+  layout: 'dashboard',
+  async asyncData ({ $axios }) {
+    const templates = await $axios.get('/templates', {
+      params: {
+        number: 1
+      }
+    })
+    console.log(templates)
+    return { templates }
+  },
+  head: {
+    title: 'Templates'
+  }
 }
 </script>

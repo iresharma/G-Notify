@@ -61,7 +61,6 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
 import CustFooter from '@/components/footer.vue'
 import AppBar from '@/components/appbar.vue'
 
@@ -79,13 +78,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ snackbar: 'systemConfig/snackbar' }),
     drawer: {
       get () {
         return this.$store.getters['systemConfig/drawer']
       },
       set () {
         this.$store.commit('systemConfig/TOGGLE_DRAWER')
+      }
+    },
+    snackbar: {
+      get () {
+        return this.$store.getters['systemConfig/snackbar']
+      },
+      set (val) {
+        this.$store.commit('systemConfig/SNACKBAR', val)
       }
     }
   }

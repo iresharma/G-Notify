@@ -1,9 +1,12 @@
 // Google APIs go here
 const { google } = require('googleapis')
 
-const SCOPES = ['https://www.googleapis.com/auth/gmail.send',
-  'https://www.googleapis.com/auth/userinfo.email',
-  'https://www.googleapis.com/auth/userinfo.profile']
+const SCOPES = [
+  'https://www.googleapis.com/auth/gmail.send',
+  'https://www.googleapis.com/auth/gmail.modify',
+  'https://www.googleapis.com/auth/gmail.compose',
+  'https://www.googleapis.com/auth/gmail.metadata'
+]
 
 const getCredLink = () => {
   return new Promise((resolve, reject) => {
@@ -36,6 +39,23 @@ const getToken = (code) => {
   })
 }
 
+const loadUser = (token) => {
+  return new Promise((resolve, reject) => {
+    const authClient = new google.auth.OAuth2(
+      process.env.GMAIL_CLIENT_ID,
+      process.env.GMAIL_CLIENT_SECRET,
+      process.env.GMAIL_REDIRECT_URL
+    )
+    authClient.setCredentials(JSON.parse(token))
+    authClient.getAccessToken().then(console.log)
+    const gmail = google.gmail({ version: 'v1' })
+    gmail.users.getProfile({ userId: 'me', auth: authClient }).then((response) => {
+      console.log(response)
+      resolve(response)
+    }).catch(reject)
+  })
+}
+
 const sendMessage = (token, message) => {
   const authClient = new google.auth.OAuth2(
     process.env.GMAIL_CLIENT_ID,
@@ -46,4 +66,4 @@ const sendMessage = (token, message) => {
   gmail.users.messages.send({})
 }
 
-module.exports = { getCredLink, getToken, sendMessage }
+module.exports = { getCredLink, getToken, sendMessage, loadUser }

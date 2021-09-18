@@ -1,7 +1,8 @@
 export const state = () => ({
   user: {
     name: null,
-    photoUrl: null
+    photoUrl: null,
+    _id: null
   }
 })
 

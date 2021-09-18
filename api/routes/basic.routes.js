@@ -9,27 +9,14 @@ router.get('/', (req, res) => {
 })
 
 router.get('/auth', async (req, res) => {
-  if (req.headers.authorization) {
-    const clientId = req.query.clientId
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const userData = await dbFunction.getUserData(clientId)
-      return res.send(userData)
-    } catch (err) {
-      console.error(err)
-      return res.status(500).send(err)
-    }
-    // TODO: put user creds and token in a global variable
-  } else {
-    let link
-    try {
-      link = await gmail.getCredLink()
-    } catch (err) {
-      console.error(err)
-      return res.status(500).send(err)
-    }
-    return res.send(link)
+  let link
+  try {
+    link = await gmail.getCredLink()
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send(err)
   }
+  return res.send(link)
 })
 
 router.post('/auth', async (req, res) => {
@@ -37,6 +24,13 @@ router.post('/auth', async (req, res) => {
   let token, user
   try {
     token = await gmail.getToken(code)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send(err)
+  }
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const userInfo = await gmail.loadUser(JSON.stringify(token))
   } catch (err) {
     console.error(err)
     return res.status(500).send(err)

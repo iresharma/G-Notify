@@ -125,8 +125,8 @@ export default {
         )
         .then((response) => {
           this.dialog = false
-          this.$store.commit('auth/SET_USER', response.data.user)
-          this.$router.push('/dashboard')
+          this.$store.commit('auth/SET_USER', { ...response.data.user, _id: response.data._id })
+          this.$router.push('/home')
         })
         .catch(error => this.$store.commit('systemConfig/SNACKBAR', {
           show: true,

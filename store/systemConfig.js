@@ -4,7 +4,7 @@ export const state = () => ({
     type: '',
     text: ''
   },
-  drawer: null // initialized as null because vuetify takes null to default it to closed on mobile and open on desktop
+  drawer: false // initialized as null because vuetify takes null to default it to closed on mobile and open on desktop
 })
 
 export const getters = {
