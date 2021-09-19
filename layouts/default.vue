@@ -1,30 +1,20 @@
 <template>
   <v-app dark>
     <app-bar />
-    <v-sheet style="margin-top: 4rem;">
+    <v-main>
       <Nuxt />
-    </v-sheet>
+    </v-main>
     <CustFooter />
     <v-snackbar
       v-model="snackbar.show"
-      :timeout="-1"
       absolute
       bottom
       :color="snackbar.type"
       left
       text
+      style="z-index: 999999999"
     >
       {{ snackbar.text }}
-      <template #action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar.show = false"
-        >
-          Close
-        </v-btn>
-      </template>
     </v-snackbar>
   </v-app>
 </template>

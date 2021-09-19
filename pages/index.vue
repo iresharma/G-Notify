@@ -37,16 +37,6 @@
             label="Enter code from the other page"
             required
           />
-          <v-text-field
-            v-model="user.name"
-            label="Name"
-            required
-          />
-          <v-text-field
-            v-model="user.email"
-            label="Email"
-            required
-          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -69,11 +59,7 @@ export default {
   data () {
     return {
       dialog: false,
-      userCode: null,
-      user: {
-        name: null,
-        email: null
-      }
+      userCode: null
     }
   },
   head () {
@@ -113,8 +99,7 @@ export default {
         .post(
           '/api/auth',
           {
-            code: this.userCode,
-            user: this.user
+            code: this.userCode
           },
           {
             params: {},
@@ -125,7 +110,8 @@ export default {
         )
         .then((response) => {
           this.dialog = false
-          this.$store.commit('auth/SET_USER', { ...response.data.user, _id: response.data._id })
+          console.log(response)
+          this.$store.commit('auth/SET_USER', { ...response.data.userData })
           this.$router.push('/home')
         })
         .catch(error => this.$store.commit('systemConfig/SNACKBAR', {

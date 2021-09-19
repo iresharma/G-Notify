@@ -31,30 +31,20 @@
         </v-btn>
       </v-list>
     </v-navigation-drawer>
-    <v-sheet height="calc(100vh - 4rem)" style="margin-top: 4rem; padding-left: 5rem">
+    <v-main style="padding-left: 4rem;">
       <Nuxt />
-    </v-sheet>
+    </v-main>
     <CustFooter />
     <v-snackbar
       v-model="snackbar.show"
-      :timeout="-1"
       absolute
       bottom
       :color="snackbar.type"
       left
       text
+      style="z-index: 999999999"
     >
       {{ snackbar.text }}
-      <template #action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="snackbar.show = false"
-        >
-          Close
-        </v-btn>
-      </template>
     </v-snackbar>
   </v-app>
 </template>

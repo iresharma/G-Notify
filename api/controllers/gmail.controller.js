@@ -47,10 +47,8 @@ const loadUser = (token) => {
       process.env.GMAIL_REDIRECT_URL
     )
     authClient.setCredentials(JSON.parse(token))
-    authClient.getAccessToken().then(console.log)
     const gmail = google.gmail({ version: 'v1' })
     gmail.users.getProfile({ userId: 'me', auth: authClient }).then((response) => {
-      console.log(response)
       resolve(response)
     }).catch(reject)
   })

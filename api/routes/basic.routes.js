@@ -21,7 +21,7 @@ router.get('/auth', async (req, res) => {
 
 router.post('/auth', async (req, res) => {
   const code = req.body.code
-  let token, user
+  let token
   try {
     token = await gmail.getToken(code)
   } catch (err) {
@@ -29,19 +29,19 @@ router.post('/auth', async (req, res) => {
     return res.status(500).send(err)
   }
   try {
-    // eslint-disable-next-line no-unused-vars
     const userInfo = await gmail.loadUser(JSON.stringify(token))
+    const userData = await dbFunction.getUserData(userInfo.emailAddress)
+    if (userData) {
+      return res.status(200).send({ new: false, userData })
+    } else {
+      const user = await dbFunction.createUser({ email: userInfo.data.emailAddress }, token)
+      console.log({ new: true, ...user })
+      return res.status(200).send({ new: true, userData: user })
+    }
   } catch (err) {
     console.error(err)
     return res.status(500).send(err)
   }
-  try {
-    user = await dbFunction.createUser(req.body.user, token)
-  } catch (err) {
-    console.error(err)
-    return res.status(500).send(err)
-  }
-  return res.send(user)
 })
 
 module.exports = router

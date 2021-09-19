@@ -8,7 +8,7 @@ export const state = () => ({
 
 //* Getters
 export const getters = {
-  isLogged: state => Boolean(state.user.name),
+  isLogged: state => Boolean(state.user.email),
   user: state => state.user
 }
 
@@ -18,13 +18,13 @@ export const mutations = {
     if (field) {
       state.user[field] = payload
     } else {
-      state.user = payload
+      state.user = payload.user
+      if (!payload.user.name) { state.user.name = payload.user.email.split('@')[0] }
     }
     localStorage.setItem('user', JSON.stringify(payload))
   },
   LOAD_USER (state) {
     if (localStorage.getItem('user')) {
-      console.log('user loaded')
       state.user = JSON.parse(localStorage.getItem('user'))
     }
   }

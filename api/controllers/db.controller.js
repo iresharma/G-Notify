@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 const userModel = require('../models/user.model')
 const templateModel = require('../models/template.model')
 
-const getUserData = (user) => {
+const getUserData = (email) => {
   return new Promise((resolve, reject) => {
-    userModel.findOne({}, (err, data) => {
+    userModel.findOne({ email }, (err, data) => {
       if (err) {
         reject(err)
       } else {
