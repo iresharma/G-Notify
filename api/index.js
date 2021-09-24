@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const basicRouter = require('./routes/basic.routes')
+const templateRouter = require('./routes/template.routes')
 
 const app = express()
 
@@ -25,6 +26,7 @@ console.log('hello')
 mongoose.Promise = global.Promise
 
 app.use('/', basicRouter)
+app.use('/templates', templateRouter)
 
 export default {
   path: '/api',

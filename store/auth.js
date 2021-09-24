@@ -25,7 +25,7 @@ export const mutations = {
   },
   LOAD_USER (state) {
     if (localStorage.getItem('user')) {
-      state.user = JSON.parse(localStorage.getItem('user'))
+      state.user = JSON.parse(localStorage.getItem('user')).user
     }
   }
 }
