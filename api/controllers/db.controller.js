@@ -71,4 +71,16 @@ const getTemplate = (id) => {
   })
 }
 
-module.exports = { getUserData, createUser, getTemplates, getTemplate, getUserDataById }
+const getTemplateCount = () => {
+  return new Promise((resolve, reject) => {
+    templateModel.countDocuments((err, count) => {
+      if (err) {
+        return reject(err)
+      }
+      console.log(count)
+      resolve(count)
+    })
+  })
+}
+
+module.exports = { getUserData, createUser, getTemplates, getTemplate, getUserDataById, getTemplateCount }

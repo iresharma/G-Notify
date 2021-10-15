@@ -5,15 +5,19 @@
       alt="rendered-out"
       style="width:100%"
     >
-
     <v-card-title>{{ name }}</v-card-title>
     <v-card-subtitle class="pb-0">
       Likes {{ likes }}
     </v-card-subtitle>
-    {{ user }}
+    <v-card-text class="text--primary">
+      {{ desc }}
+    </v-card-text>
     <v-card-actions>
       <v-btn icon>
         <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-thumb-up-outline</v-icon>
       </v-btn>
       <v-dialog v-model="dialog">
         <template #activator="{ on, attrs }">
@@ -56,6 +60,10 @@ export default {
       type: String,
       required: true
     },
+    desc: {
+      type: String,
+      required: true
+    },
     likes: {
       type: Number,
       required: true
@@ -63,7 +71,8 @@ export default {
   },
   data () {
     return {
-      dialog: false
+      dialog: false,
+      src: null
     }
   },
   computed: {
@@ -94,6 +103,12 @@ export default {
             text: error.message
           })
         })
+    },
+    toBase64 (arr) {
+      // arr = new Uint8Array(arr) // if it's an ArrayBuffer
+      return btoa(
+        arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+      )
     }
   }
 }

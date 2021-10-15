@@ -9,6 +9,11 @@ router.get('/', async (req, res) => {
   return res.status(200).send({ templates })
 })
 
+router.get('/count', async (_, res) => {
+  const count = await dbFunction.getTemplateCount()
+  return res.status(200).send({ count })
+})
+
 router.get('/renderTemplate', async (req, res) => {
   const template = await dbFunction.getTemplate(req.query.id)
   const image = await puppeteerController.templateScreenshot(template.content, req.query.quality)

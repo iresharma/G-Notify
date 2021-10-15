@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Stats will show up here</h1>
   </div>
 </template>
