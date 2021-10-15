@@ -5,7 +5,7 @@
 ### Todo
 - [x]  Setup vuetify
     - [x]  Colors
-- [ ]  Setup Express App
+- [x]  Setup Express App
     - [x]  folder structure
     - [x]  Mongo setup
     - [x]  logger
@@ -13,16 +13,23 @@
   - [x]  interceptors
   - [x]  CORS
 - [ ]  Views
-    - [ ]  login
-    - [ ]  register
     - [ ]  templates
-        - [ ]  your
-        - [ ]  public
+      - [ ]  your
+      - [x]  public
+      - [ ]  upload
+    - [ ]  stats
     - [ ]  import csv
     - [ ]  Templating guide
     - [ ]  send
-- [ ]  Express app
-    - [ ]  mailing logic (controller)
-    - [ ]  db
-    - [ ]  models
-    - [ ]  g-apis
+- [x]  Express app
+    - [x]  mailing logic (controller)
+    - [x]  db
+    - [x]  models
+    - [x]  g-apis
+    - [x]  puppeteer for template screenshot
+    - [x]  getUser profile
+    - [x]  authenticate and refresh token
+    - [x]  send mail
+    - [ ]  send mails at large
+    - [ ]  trackers
+    - [ ]  stats
