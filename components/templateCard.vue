@@ -1,0 +1,100 @@
+<template>
+  <v-card>
+    <img
+      :src="`/api/templates/renderTemplate?quality=low&id=${id}`"
+      alt="rendered-out"
+      style="width:100%"
+    >
+
+    <v-card-title>{{ name }}</v-card-title>
+    <v-card-subtitle class="pb-0">
+      Likes {{ likes }}
+    </v-card-subtitle>
+    {{ user }}
+    <v-card-actions>
+      <v-btn icon>
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <v-dialog v-model="dialog">
+        <template #activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-code-tags</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <pre v-highlightjs="templateContent"><code class="html" /></pre>
+        </v-card>
+      </v-dialog>
+
+      <v-btn color="primary" text>
+        Use
+      </v-btn>
+      <v-btn color="primary" outlined @click="sendTest">
+        Test
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  props: {
+    templateUser: {
+      type: Object,
+      required: true
+    },
+    templateContent: {
+      type: String,
+      required: true
+    },
+    id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    likes: {
+      type: Number,
+      required: true
+    }
+  },
+  data () {
+    return {
+      dialog: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user'
+    })
+  },
+  methods: {
+    sendTest () {
+      this.$axios
+        .get('/api/emails/sendTest', {
+          params: {
+            template: this.id,
+            user: this.user.id
+          }
+        })
+        .then((response) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'success',
+            text: 'Email sent to your email id'
+          })
+        })
+        .catch((error) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'danger',
+            text: error.message
+          })
+        })
+    }
+  }
+}
+</script>

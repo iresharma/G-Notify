@@ -4,8 +4,22 @@ const userModel = require('../models/user.model')
 const templateModel = require('../models/template.model')
 
 const getUserData = (email) => {
+  console.log(email)
   return new Promise((resolve, reject) => {
-    userModel.findOne({ email }, (err, data) => {
+    userModel.findOne({ 'user.email': email }, (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+const getUserDataById = (id) => {
+  console.log(id)
+  return new Promise((resolve, reject) => {
+    userModel.findOne({ _id: id }, (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -33,8 +47,8 @@ const createUser = (user, token) => {
 const getTemplates = (start) => {
   return new Promise((resolve, reject) => {
     templateModel
-      .find({}, {}, { skip: Number(start) * 20, limit: 20 })
-      .populate('users')
+      .find({}, null, { skip: Number(start) * 20, limit: 20 })
+      .populate('user')
       .exec((err, template) => {
         if (err) {
           return reject(err)
@@ -44,4 +58,17 @@ const getTemplates = (start) => {
   })
 }
 
-module.exports = { getUserData, createUser, getTemplates }
+const getTemplate = (id) => {
+  return new Promise((resolve, reject) => {
+    templateModel
+      .findOne({ _id: id })
+      .exec((err, template) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(template)
+      })
+  })
+}
+
+module.exports = { getUserData, createUser, getTemplates, getTemplate, getUserDataById }

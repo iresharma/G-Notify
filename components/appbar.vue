@@ -1,6 +1,5 @@
 <template>
   <v-app-bar
-    absolute
     app
   >
     <v-app-bar-nav-icon v-if="side" @click="$store.commit('systemConfig/TOGGLE_DRAWER')" />

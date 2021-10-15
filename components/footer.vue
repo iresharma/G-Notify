@@ -2,7 +2,7 @@
   <v-footer
     color="primary lighten-1"
     padless
-    absolute
+    fixed
   >
     <v-row
       justify="center"

@@ -1,5 +1,6 @@
 // Google APIs go here
 const { google } = require('googleapis')
+const Mime = require('mime-message')
 
 const SCOPES = [
   'https://www.googleapis.com/auth/gmail.send',
@@ -8,15 +9,15 @@ const SCOPES = [
   'https://www.googleapis.com/auth/gmail.metadata'
 ]
 
+const AUTH_CLIENT = new google.auth.OAuth2(
+  process.env.GMAIL_CLIENT_ID,
+  process.env.GMAIL_CLIENT_SECRET,
+  process.env.GMAIL_REDIRECT_URL
+)
+
 const getCredLink = () => {
   return new Promise((resolve, reject) => {
-    const oauth2Client = new google.auth.OAuth2(
-      process.env.GMAIL_CLIENT_ID,
-      process.env.GMAIL_CLIENT_SECRET,
-      process.env.GMAIL_REDIRECT_URL
-    )
-
-    const url = oauth2Client.generateAuthUrl({
+    const url = AUTH_CLIENT.generateAuthUrl({
       access_type: 'offline',
       scope: SCOPES
     })
@@ -26,14 +27,10 @@ const getCredLink = () => {
 
 const getToken = (code) => {
   return new Promise((resolve, reject) => {
-    const oauth2Client = new google.auth.OAuth2(
-      process.env.GMAIL_CLIENT_ID,
-      process.env.GMAIL_CLIENT_SECRET,
-      process.env.GMAIL_REDIRECT_URL
-    )
-
-    oauth2Client.getToken(code, (err, token) => {
-      if (err) { reject(err) }
+    AUTH_CLIENT.getToken(code, (err, token) => {
+      if (err) {
+        reject(err)
+      }
       resolve(token)
     })
   })
@@ -41,27 +38,43 @@ const getToken = (code) => {
 
 const loadUser = (token) => {
   return new Promise((resolve, reject) => {
-    const authClient = new google.auth.OAuth2(
-      process.env.GMAIL_CLIENT_ID,
-      process.env.GMAIL_CLIENT_SECRET,
-      process.env.GMAIL_REDIRECT_URL
-    )
-    authClient.setCredentials(JSON.parse(token))
+    AUTH_CLIENT.setCredentials(JSON.parse(token))
     const gmail = google.gmail({ version: 'v1' })
-    gmail.users.getProfile({ userId: 'me', auth: authClient }).then((response) => {
-      resolve(response)
-    }).catch(reject)
+    gmail.users
+      .getProfile({ userId: 'me', auth: AUTH_CLIENT })
+      .then((response) => {
+        resolve(response)
+      })
+      .catch(reject)
   })
 }
 
-const sendMessage = (token, message) => {
-  const authClient = new google.auth.OAuth2(
-    process.env.GMAIL_CLIENT_ID,
-    process.env.GMAIL_CLIENT_SECRET,
-    process.env.GMAIL_REDIRECT_URL
-  ).setCredentials(JSON.parse(token))
-  const gmail = google.gmail({ version: 'v1', auth: authClient })
-  gmail.users.messages.send({})
+const sendSingleMessage = (token, message, recipient, from, userId = 'me') => {
+  return new Promise((resolve, reject) => {
+    const messageData = {
+      type: 'text/html',
+      encoding: 'UTF-8',
+      from,
+      to: [recipient],
+      cc: [],
+      bcc: [],
+      date: new Date(),
+      subject: 'Test',
+      body: message
+    }
+    const email = Mime.createMimeMessage(messageData)
+    const base64SafeString = email.toBase64SafeString()
+    AUTH_CLIENT.setCredentials(JSON.parse(token))
+    const gmail = google.gmail({ version: 'v1', auth: AUTH_CLIENT })
+    gmail.users.messages
+      .send({
+        userId,
+        requestBody: {
+          raw: base64SafeString
+        }
+      })
+      .then(resolve)
+  })
 }
 
-module.exports = { getCredLink, getToken, sendMessage, loadUser }
+module.exports = { getCredLink, getToken, sendSingleMessage, loadUser }

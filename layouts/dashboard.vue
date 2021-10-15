@@ -2,7 +2,7 @@
   <v-app dark>
     <app-bar :side="true" />
     <v-navigation-drawer
-      absolute
+      app
       permanent
       :mini-variant.sync="drawer"
     >
@@ -31,7 +31,7 @@
         </v-btn>
       </v-list>
     </v-navigation-drawer>
-    <v-main style="padding-left: 4rem;">
+    <v-main style="padding-left: 4rem; padding-bottom: 4rem;">
       <Nuxt />
     </v-main>
     <CustFooter />
@@ -84,6 +84,9 @@ export default {
         this.$store.commit('systemConfig/SNACKBAR', val)
       }
     }
+  },
+  beforeMount () {
+    this.$store.commit('auth/LOAD_USER')
   }
 }
 </script>
