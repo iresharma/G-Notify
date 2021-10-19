@@ -21,10 +21,10 @@
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
     "nuxt": "^2.15.7",
+    "nuxt-highlightjs": "^1.0.1",
     "puppeteer": "^10.4.0",
     "vue-highlightjs": "^1.3.3",
     "vue-lottie-player": "^0.1.9",
-    "vuejs-ace-editor": "^1.0.1",
     "vuetify": "^2.5.5"
   },
   "devDependencies": {
@@ -34,6 +34,7 @@
     "@nuxtjs/vuetify": "^1.12.1",
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.12.1"
+    "eslint-plugin-vue": "^7.12.1",
+    "vue2-ace-editor": "0.0.15"
   }
 }

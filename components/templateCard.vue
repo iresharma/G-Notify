@@ -26,7 +26,9 @@
           </v-btn>
         </template>
         <v-card>
-          <pre v-highlightjs="templateContent"><code class="html" /></pre>
+          <pre>
+        <code v-highlight="templateContent" class="language-html" />
+      </pre>
         </v-card>
       </v-dialog>
 

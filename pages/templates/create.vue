@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import AceEditor from 'vuejs-ace-editor'
+let AceEditor
+if (process.client) { AceEditor = require('vue2-ace-editor') }
 export default {
   components: {
     AceEditor
