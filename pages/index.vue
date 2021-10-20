@@ -11,7 +11,7 @@
       <v-btn elevation="3" color="primary" @click="$router.push('/home')">
         Dashboard
       </v-btn>
-      <v-btn elevation="0" color="accent" plain>
+      <v-btn elevation="0" color="accent" plain href="https://github.com/iresharma/G-Notify">
         <v-icon dense color="accent darken-2" class="mx-2">
           mdi-github
         </v-icon>

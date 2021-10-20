@@ -1,10 +1,14 @@
 <template>
   <div class="container">
-    <v-lottie-player
-      name="scooterAnim"
-      loop
-      path="https://assets2.lottiefiles.com/packages/lf20_hu2LUv.json"
-    />
+    <v-alert
+      color="red"
+      dense
+      icon="mdi-alert-circle-outline"
+      text
+      type="error"
+    >
+      The thumbnails are rendered using a headless browser hence looks slighlty different from the real website.
+    </v-alert>
     <div v-for="template in templates" :key="template._id" class="grid">
       <templateCard
         :id="template._id"

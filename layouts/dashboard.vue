@@ -5,20 +5,26 @@
       app
       permanent
       :mini-variant.sync="drawer"
+      class="blue white--text"
     >
       <v-list dense>
         <v-list-item
           v-for="item in items"
           :key="item.title"
+          class="whhite--text"
           link
           @click="$router.push(item.to)"
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon color="white">
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="white--text font-weight-medium">
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-btn
@@ -62,9 +68,9 @@ export default {
   data () {
     return {
       items: [
-        { title: 'Home', icon: 'mdi-home', to: 'home' },
-        { title: 'Templates', icon: 'mdi-view-dashboard', to: 'templates' },
-        { title: 'Templating Rules', icon: 'mdi-book-variant', to: 'templates/rules' }
+        { title: 'Home', icon: 'mdi-home', to: '/home' },
+        { title: 'Templates', icon: 'mdi-view-dashboard', to: '/templates' },
+        { title: 'Templating Rules', icon: 'mdi-book-variant', to: '/templates/rules' }
       ]
     }
   },

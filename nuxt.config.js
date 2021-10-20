@@ -57,7 +57,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://g-notify.herokuapp.com'
+    baseURL: process.env.BASEURL
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

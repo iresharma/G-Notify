@@ -24,7 +24,7 @@
     "nuxt-highlightjs": "^1.0.1",
     "puppeteer": "^10.4.0",
     "vue-highlightjs": "^1.3.3",
-    "vue-lottie-player": "^0.1.9",
+    "vue-lottie": "^0.2.1",
     "vuetify": "^2.5.5"
   },
   "devDependencies": {
