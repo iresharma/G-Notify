@@ -1,44 +1,46 @@
 <template>
-  <v-card>
+  <v-card style="margin: 0.3rem; display: flex; flex-direction: column; justify-content: space-between;">
     <img
       :src="`/api/templates/renderTemplate?quality=low&id=${id}`"
       alt="rendered-out"
       style="width:100%"
     >
-    <v-card-title>{{ name }}</v-card-title>
-    <v-card-subtitle class="pb-0">
-      Likes {{ likes }}
-    </v-card-subtitle>
-    <v-card-text class="text--primary">
-      {{ desc }}
-    </v-card-text>
-    <v-card-actions>
-      <v-btn icon>
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-thumb-up-outline</v-icon>
-      </v-btn>
-      <v-dialog v-model="dialog">
-        <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-code-tags</v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-          <pre>
+    <div>
+      <v-card-title>{{ name }}</v-card-title>
+      <v-card-subtitle class="pb-0">
+        Likes {{ likes }}
+      </v-card-subtitle>
+      <v-card-text class="text--primary">
+        {{ desc }}
+      </v-card-text>
+      <v-card-actions>
+        <v-btn icon>
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-thumb-up-outline</v-icon>
+        </v-btn>
+        <v-dialog v-model="dialog">
+          <template #activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-code-tags</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <pre>
         <code v-highlight="templateContent" class="language-html" />
       </pre>
-        </v-card>
-      </v-dialog>
+          </v-card>
+        </v-dialog>
 
-      <v-btn color="primary" text>
-        Use
-      </v-btn>
-      <v-btn color="primary" outlined @click="sendTest">
-        Test
-      </v-btn>
-    </v-card-actions>
+        <v-btn color="primary" text>
+          Use
+        </v-btn>
+        <v-btn color="primary" outlined @click="sendTest">
+          Test
+        </v-btn>
+      </v-card-actions>
+    </div>
   </v-card>
 </template>
 

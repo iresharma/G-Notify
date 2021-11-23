@@ -60,14 +60,12 @@ const getTemplates = (start) => {
 
 const getTemplate = (id) => {
   return new Promise((resolve, reject) => {
-    templateModel
-      .findOne({ _id: id })
-      .exec((err, template) => {
-        if (err) {
-          return reject(err)
-        }
-        resolve(template)
-      })
+    templateModel.findOne({ _id: id }).exec((err, template) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(template)
+    })
   })
 }
 
@@ -83,4 +81,26 @@ const getTemplateCount = () => {
   })
 }
 
-module.exports = { getUserData, createUser, getTemplates, getTemplate, getUserDataById, getTemplateCount }
+const createTemplate = (data) => {
+  return new Promise((resolve, reject) => {
+    templateModel.create(
+      { ...data, _id: mongoose.Types.ObjectId() },
+      (err, template) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(template)
+      }
+    )
+  })
+}
+
+module.exports = {
+  getUserData,
+  createUser,
+  getTemplates,
+  getTemplate,
+  getUserDataById,
+  getTemplateCount,
+  createTemplate
+}

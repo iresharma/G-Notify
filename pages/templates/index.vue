@@ -9,9 +9,11 @@
     >
       The thumbnails are rendered using a headless browser hence looks slighlty different from the real website.
     </v-alert>
-    <div v-for="template in templates" :key="template._id" class="grid">
+    <div class="grid">
       <templateCard
+        v-for="template in templates"
         :id="template._id"
+        :key="template._id"
         :desc="template.desc ? template.desc : 'No Description available'"
         :template-user="template.user"
         :template-content="template.content"
@@ -75,7 +77,7 @@ export default {
       }
     })
     const length = await $axios.get('/api/templates/count')
-    return { templates: templates.data.templates, length: length.data.count % 20 }
+    return { templates: templates.data.templates, length: (length.data.count / 20) + 1 }
   },
   data () {
     return {
@@ -90,7 +92,7 @@ export default {
     page () {
       this.$axios.get('/api/templates', {
         params: {
-          page: this.page
+          page: this.page - 1
         }
       }).then((response) => {
         this.templates = response.data.templates
@@ -109,6 +111,6 @@ export default {
 <style>
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(300px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
 }
 </style>

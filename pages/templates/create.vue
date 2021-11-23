@@ -19,17 +19,23 @@
       The rendered version on the right side isn't an accurate representaion of what the email will look like.
     </v-alert>
     <v-row style="margin: 1rem 0; display: flex; justify-content: space-between;">
-      <div>
+      <v-col>
         <v-btn color="danger" text @click="content = ''">
           clear
         </v-btn>
         <v-btn color="primary" text @click="$router.push('/templates/rules')">
           Templating Rules
         </v-btn>
-      </div>
-      <v-btn color="primary">
-        Test
-      </v-btn>
+      </v-col>
+      <v-col style="display: flex;">
+        <v-text-field v-model="templateName" label="Template name" />
+        <v-btn color="primary">
+          Test
+        </v-btn>
+        <v-btn color="primary" outlined @click="upload">
+          Create
+        </v-btn>
+      </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col>
@@ -76,6 +82,7 @@ export default {
   layout: 'dashboard',
   data () {
     return {
+      templateName: null,
       content:
 `<h1>Hello</h1>
 <h3>This is what your mail might look like</h3>
@@ -99,6 +106,29 @@ export default {
       require('brace/mode/less')
       require('brace/theme/monokai')
       require('brace/snippets/javascript') // snippet
+    },
+    upload () {
+      this.$axios.post('/api/templates/createTemplate', {
+        content: this.content,
+        name: this.templateName,
+        likes: 0,
+        user: JSON.parse(localStorage.getItem('user'))._id
+      })
+        .then((response) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'success',
+            text: response.data.message
+          })
+          this.$router.push('/templates')
+        })
+        .catch((error) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'danger',
+            text: error.message
+          })
+        })
     }
   }
 }

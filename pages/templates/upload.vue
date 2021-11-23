@@ -12,8 +12,8 @@
         type="error"
         color="red"
       >
-        The rendered version on the right side isn't an accurate representaion
-        of what the email will look like.
+        The rendered version below isn't an accurate representaion of what the
+        email will look like.
       </v-alert>
       <v-file-input
         v-model="file"
@@ -27,6 +27,16 @@
         @input="readFile"
         @change="readFile"
       />
+      <v-row>
+        <v-col>
+          <v-text-field v-model="templateName" label="Template name" />
+        </v-col>
+        <v-col>
+          <v-btn elevation="2" outlined @click="upload">
+            Upload template
+          </v-btn>
+        </v-col>
+      </v-row>
     </div>
     <div v-html="template" />
   </div>
@@ -37,9 +47,9 @@ export default {
   layout: 'dashboard',
   data () {
     return {
-      template:
-        '<h1 style="text-align: center;">Please Upload your html template</h1>',
-      file: null
+      template: null,
+      file: null,
+      templateName: null
     }
   },
   head: {
@@ -57,6 +67,30 @@ export default {
         })
         .then((response) => {
           this.template = response.data.template
+          this.templateName = this.file.name.split('.')[0]
+        })
+        .catch((error) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'danger',
+            text: error.message
+          })
+        })
+    },
+    upload () {
+      this.$axios.post('/api/templates/createTemplate', {
+        content: this.template,
+        name: this.templateName,
+        likes: 0,
+        user: JSON.parse(localStorage.getItem('user'))._id
+      })
+        .then((response) => {
+          this.$store.commit('systemConfig/SNACKBAR', {
+            show: true,
+            type: 'success',
+            text: response.data.message
+          })
+          this.$router.push('/templates')
         })
         .catch((error) => {
           this.$store.commit('systemConfig/SNACKBAR', {

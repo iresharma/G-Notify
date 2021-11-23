@@ -40,8 +40,27 @@ router.get('/renderTemplate', async (req, res) => {
 })
 
 router.post('/readTemplate', upload.single('file'), async (req, res) => {
-  const template = await fileHandler.readTemplate(req.file.path.split('/').pop())
-  return res.status(200).send({ template })
+  if (!req.file) {
+    return res.status(400).send({ error: 'No file was uploaded' })
+  }
+  try {
+    const template = await fileHandler.readTemplate(req.file.path.split('/').pop())
+    return res.status(200).send({ template })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send({ err })
+  }
+})
+
+router.post('/createTemplate', async (req, res) => {
+  const data = req.body
+  try {
+    const template = await dbFunction.createTemplate(data)
+    return res.status(200).send({ template })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send({ err })
+  }
 })
 
 module.exports = router
