@@ -52,7 +52,7 @@ const loadUser = (token) => {
 const sendSingleMessage = (token, message, recipient, from, userId = 'me') => {
   return new Promise((resolve, reject) => {
     const messageData = {
-      type: 'text/html',
+      type: 'multipart/mixed',
       encoding: 'UTF-8',
       from,
       to: [recipient],

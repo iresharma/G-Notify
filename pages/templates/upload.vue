@@ -47,14 +47,16 @@ export default {
   },
   methods: {
     readFile () {
-      console.log(this.file)
-      const file = this.file
       const formData = new FormData()
-      formData.append('file', file)
+      formData.append('file', this.file)
       this.$axios
-        .post('/api/templates/readTemplate', formData)
+        .post('/api/templates/readTemplate', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
         .then((response) => {
-          this.template = response.data
+          this.template = response.data.template
         })
         .catch((error) => {
           this.$store.commit('systemConfig/SNACKBAR', {
