@@ -19,8 +19,8 @@
       - [ ]  upload
     - [ ]  stats
     - [ ]  import csv
-    - [ ]  Templating guide
-    - [ ]  send
+    - [x]  Templating guide
+    - [x]  send
 - [x]  Express app
     - [x]  mailing logic (controller)
     - [x]  db
