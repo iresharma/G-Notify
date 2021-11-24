@@ -70,7 +70,8 @@ export default {
       items: [
         { title: 'Home', icon: 'mdi-home', to: '/home' },
         { title: 'Templates', icon: 'mdi-view-dashboard', to: '/templates' },
-        { title: 'Templating Rules', icon: 'mdi-book-variant', to: '/templates/rules' }
+        { title: 'Templating Rules', icon: 'mdi-book-variant', to: '/templates/rules' },
+        { title: 'Mail', icon: 'mdi-at', to: '/emails/send/_id' }
       ]
     }
   },

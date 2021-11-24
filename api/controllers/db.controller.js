@@ -67,7 +67,7 @@ const getTemplates = (start) => {
 
 const getTemplate = (id) => {
   return new Promise((resolve, reject) => {
-    templateModel.findOne({ _id: id }).exec((err, template) => {
+    templateModel.findOne({ _id: mongoose.Types.ObjectId(id) }).exec((err, template) => {
       if (err) {
         return reject(err)
       }

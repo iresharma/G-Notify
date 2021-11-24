@@ -63,4 +63,9 @@ router.post('/createTemplate', async (req, res) => {
   }
 })
 
+router.get('/:id', async (req, res) => {
+  const template = await dbFunction.getTemplate(req.params.id)
+  return res.status(200).send({ template })
+})
+
 module.exports = router

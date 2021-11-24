@@ -33,7 +33,7 @@
           </v-card>
         </v-dialog>
 
-        <v-btn color="primary" text>
+        <v-btn color="primary" text @click="$router.push(`/emails/send/${id}`)">
           Use
         </v-btn>
         <v-btn color="primary" outlined @click="sendTest">
