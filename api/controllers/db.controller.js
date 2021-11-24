@@ -3,14 +3,21 @@ const mongoose = require('mongoose')
 const userModel = require('../models/user.model')
 const templateModel = require('../models/template.model')
 
-const getUserData = (email) => {
+const getUserData = (email, token) => {
   console.log(email)
   return new Promise((resolve, reject) => {
     userModel.findOne({ 'user.email': email }, (err, data) => {
       if (err) {
         reject(err)
       } else {
-        resolve(data)
+        data.token = JSON.parse(token)
+        userModel.findOneAndUpdate({ _id: data._id }, data, (err, data) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(data)
+          }
+        })
       }
     })
   })

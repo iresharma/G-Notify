@@ -10,7 +10,11 @@ router.get('/sendTest', async (req, res) => {
   const user = await dbFunction.getUserDataById(userId)
   console.log(user)
   const template = await dbFunction.getTemplate(templateId)
-  emailFunction.sendSingleMessage(JSON.stringify(user.token), template.content, user.user.email, user.user.email)
+  try {
+    emailFunction.sendSingleMessage(JSON.stringify(user.token), template.content, user.user.email, user.user.email, 'Test Email from G-Notify', 'plainText')
+  } catch (err) {
+    console.log(err)
+  }
   res.send('Email sent')
 })
 

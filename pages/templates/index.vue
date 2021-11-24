@@ -77,7 +77,7 @@ export default {
       }
     })
     const length = await $axios.get('/api/templates/count')
-    return { templates: templates.data.templates, length: (length.data.count / 20) + 1 }
+    return { templates: templates.data.templates, length: Number((length.data.count / 20) + 1) }
   },
   data () {
     return {
