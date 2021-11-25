@@ -122,7 +122,7 @@ const sendSingleMessage = (
       }
     }
 
-    console.log(msg.asRaw())
+    // console.log(msg.asRaw())
 
     const buffer = Buffer.from(msg.asRaw())
     const base64SafeString = buffer.toString('base64')

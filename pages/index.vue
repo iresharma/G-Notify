@@ -110,7 +110,7 @@ export default {
         )
         .then((response) => {
           this.dialog = false
-          console.log(response)
+          // console.log(response)
           this.$store.commit('auth/SET_USER', { ...response.data.userData })
           this.$router.push('/home')
         })

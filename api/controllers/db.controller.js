@@ -4,7 +4,7 @@ const userModel = require('../models/user.model')
 const templateModel = require('../models/template.model')
 
 const getUserData = (email, token) => {
-  console.log(email)
+  // console.log(email)
   return new Promise((resolve, reject) => {
     userModel.findOne({ 'user.email': email }, (err, data) => {
       if (err) {
@@ -24,7 +24,7 @@ const getUserData = (email, token) => {
 }
 
 const getUserDataById = (id) => {
-  console.log(id)
+  // console.log(id)
   return new Promise((resolve, reject) => {
     userModel.findOne({ _id: id }, (err, data) => {
       if (err) {
@@ -82,7 +82,7 @@ const getTemplateCount = () => {
       if (err) {
         return reject(err)
       }
-      console.log(count)
+      // console.log(count)
       resolve(count)
     })
   })

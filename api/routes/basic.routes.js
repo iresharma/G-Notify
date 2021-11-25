@@ -30,14 +30,14 @@ router.post('/auth', async (req, res) => {
   }
   try {
     const userInfo = await gmail.loadUser(JSON.stringify(token))
-    console.log(userInfo)
+    // console.log(userInfo)
     const userData = await dbFunction.getUserData(userInfo.data.emailAddress, JSON.stringify(token))
-    console.log(userData)
+    // console.log(userData)
     if (userData) {
       return res.status(200).send({ new: false, userData })
     } else {
       const user = await dbFunction.createUser({ email: userInfo.data.emailAddress }, token)
-      console.log({ new: true, ...user })
+      // console.log({ new: true, ...user })
       return res.status(200).send({ new: true, userData: user })
     }
   } catch (err) {

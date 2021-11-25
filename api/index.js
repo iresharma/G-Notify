@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 const dbURI = process.env.dbURI || ''
-console.log(dbURI)
+// console.log(dbURI)
 
 mongoose
   .connect(dbURI, {
