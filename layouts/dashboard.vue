@@ -11,7 +11,7 @@
         <v-list-item
           v-for="item in items"
           :key="item.title"
-          class="whhite--text"
+          class="white--text"
           link
           @click="$router.push(item.to)"
         >

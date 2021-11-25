@@ -8,6 +8,7 @@ const readTemplate = (file) => {
       if (err) {
         reject(err)
       }
+      fs.unlinkSync(`${dir}/upload/${file}`)
       resolve(data)
     })
   })

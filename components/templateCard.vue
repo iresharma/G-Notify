@@ -14,7 +14,7 @@
         {{ desc }}
       </v-card-text>
       <v-card-actions>
-        <v-btn icon>
+        <v-btn icon @click="$router.push(`/templates/create/${id}`)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
         <v-btn icon>

@@ -5,7 +5,9 @@ const templateSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     content: String,
     likes: Number,
-    name: String
+    plainText: String,
+    name: String,
+    public: Boolean
   },
   { database: 'g-notify', collection: 'templates' }
 )

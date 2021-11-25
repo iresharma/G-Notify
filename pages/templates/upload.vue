@@ -12,31 +12,41 @@
         type="error"
         color="red"
       >
-        The rendered version below isn't an accurate representaion of what the
+        The rendered version below isn't an accurate representation of what the
         email will look like.
       </v-alert>
-      <v-file-input
-        v-model="file"
-        counter
-        show-size
-        chips
-        small-chips
-        truncate-length="15"
-        accept=".html"
-        label="Upload Template"
-        @input="readFile"
-        @change="readFile"
-      />
       <v-row>
+        <v-col>
+          <v-file-input
+            v-model="file"
+            counter
+            show-size
+            chips
+            small-chips
+            truncate-length="15"
+            accept=".html"
+            label="Upload Template"
+            @input="readFile"
+            @change="readFile"
+          />
+        </v-col>
         <v-col>
           <v-text-field v-model="templateName" label="Template name" />
         </v-col>
-        <v-col>
-          <v-btn elevation="2" outlined @click="upload">
-            Upload template
-          </v-btn>
-        </v-col>
       </v-row>
+      <v-textarea
+        v-model="plainText"
+        name="input-7-1"
+        label="Plain Text"
+        placeholder="Input Plain text for the template"
+      />
+      <v-checkbox
+        v-model="makePublic"
+        label="Make this public for others to re-use"
+      />
+      <v-btn elevation="2" outlined @click="upload">
+        Upload template
+      </v-btn>
     </div>
     <div v-html="template" />
   </div>
@@ -49,7 +59,9 @@ export default {
     return {
       template: null,
       file: null,
-      templateName: null
+      templateName: null,
+      plainText: null,
+      makePublic: true
     }
   },
   head: {
@@ -78,12 +90,15 @@ export default {
         })
     },
     upload () {
-      this.$axios.post('/api/templates/createTemplate', {
-        content: this.template,
-        name: this.templateName,
-        likes: 0,
-        user: JSON.parse(localStorage.getItem('user'))._id
-      })
+      this.$axios
+        .post('/api/templates/createTemplate', {
+          content: this.template,
+          name: this.templateName,
+          likes: 0,
+          user: JSON.parse(localStorage.getItem('user'))._id,
+          plainText: this.plainText,
+          public: this.makePublic
+        })
         .then((response) => {
           this.$store.commit('systemConfig/SNACKBAR', {
             show: true,
