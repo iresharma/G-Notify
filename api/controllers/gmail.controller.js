@@ -140,4 +140,64 @@ const sendSingleMessage = (
   })
 }
 
-module.exports = { getCredLink, getToken, sendSingleMessage, loadUser }
+const sendMultipleMails = (
+  token,
+  HTML = null,
+  recipients = [],
+  from,
+  subject,
+  plainText,
+  userId = 'me',
+  attachments = null
+) => {
+  return new Promise((resolve, reject) => {
+    const msg = createMimeMessage()
+    msg.setSender(`<${from}>`)
+    msg.setTo(`<${recipients[0]}>`)
+    msg.setBcc(recipients.slice(1))
+    // msg.setBcc(['fgh@jkl.com', 'test2@test.com', { name: 'Name', addr: 'test3@test.com' }])
+    msg.setSubject(subject)
+    // add html version
+    if (HTML) { msg.setMessage('text/html', HTML) }
+    // add alternative plain text version
+    msg.setMessage('text/plain', plainText)
+    if (attachments) {
+      if (attachments.length) {
+        attachments.forEach((attachment) => {
+          const name = attachment.name
+          const extension = attachment.name.split('.').pop()
+          let mimeType = ''
+          if (IMAGE_EXT.includes(extension)) {
+            mimeType = 'image/' + extension
+          } else if (PDF_EXT.includes(extension)) {
+            mimeType = 'application/pdf'
+          } else if (OTHER_TYPES.keys().includes(extension)) {
+            mimeType = OTHER_TYPES[extension]
+          } else {
+            reject(Error('file format not supported'))
+          }
+          const file = fs.readFileSync(attachment.path, { encoding: 'base64' })
+          msg.addAttachment(name, mimeType, file)
+        })
+      }
+    }
+
+    console.log(msg.asRaw())
+
+    const buffer = Buffer.from(msg.asRaw())
+    const base64SafeString = buffer.toString('base64')
+    AUTH_CLIENT.setCredentials(JSON.parse(token))
+    const gmail = google.gmail({ version: 'v1', auth: AUTH_CLIENT })
+    gmail.users.messages
+      .send({
+        userId,
+        requestBody: {
+          raw: base64SafeString
+        }
+      })
+      .then(resolve)
+      .catch(reject)
+  })
+}
+
+module.exports = { getCredLink, getToken, sendSingleMessage, loadUser, sendMultipleMails }

@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const basicRouter = require('./routes/basic.routes')
 const templateRouter = require('./routes/template.routes')
 const emailRouter = require('./routes/emails.routes')
+const trackerRouter = require('./routes/tracker.routes')
 
 const app = express()
 
@@ -26,6 +27,7 @@ mongoose.Promise = global.Promise
 app.use('/', basicRouter)
 app.use('/templates', templateRouter)
 app.use('/emails', emailRouter)
+app.use('/tracking', trackerRouter)
 
 export default {
   path: '/api',

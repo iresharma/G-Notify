@@ -2,6 +2,16 @@
   <div class="container">
     <v-row>
       <v-col cols="6">
+        <v-alert
+          color="red"
+          dense
+          icon="mdi-alert-circle-outline"
+          text
+          type="error"
+        >
+          The preview is rendered using a headless browser hence looks slightly
+          different from the real website.
+        </v-alert>
         <h1>Send Template</h1>
         <h4 style="margin-bottom: 1rem">
           Template: {{ template.name }}
@@ -32,6 +42,11 @@
           </v-btn>
         </v-row>
         <br>
+        <v-text-field v-model="subject" class="mx-2" label="Subject" required />
+        <br>
+        <v-btn color="primary" class="mx-2" type="submit" @click="send">
+          Send
+        </v-btn>
         <v-simple-table v-if="emails.length > 0">
           <template #default>
             <thead>
@@ -45,10 +60,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(item, index) in emails"
-                :key="item.name"
-              >
+              <tr v-for="(item, index) in emails" :key="item.name">
                 <td>{{ item }}</td>
                 <td>
                   <v-btn
@@ -65,12 +77,13 @@
           </template>
         </v-simple-table>
       </v-col>
-      <v-col cols="6" v-html="template.content" />
+      <v-col
+        cols="6"
+        style="height: 85vh; overflow-y: scroll;"
+        v-html="template.content"
+      />
     </v-row>
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
+    <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
           Import Excel
@@ -90,33 +103,17 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            color="primary"
-            text
-            @click="importExcel"
-          >
+          <v-btn color="primary" text @click="importExcel">
             Import
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog
-      v-model="loader"
-      hide-overlay
-      persistent
-      width="300"
-    >
-      <v-card
-        color="primary"
-        dark
-      >
+    <v-dialog v-model="loader" hide-overlay persistent width="300">
+      <v-card color="primary" dark>
         <v-card-text>
           Processing Excel
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          />
+          <v-progress-linear indeterminate color="white" class="mb-0" />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -139,7 +136,8 @@ export default {
       emails: [],
       excel: null,
       dialog: false,
-      loader: false
+      loader: false,
+      subject: null
     }
   },
   head: {
@@ -151,7 +149,8 @@ export default {
       this.loader = true
       const formData = new FormData()
       formData.append('excel', this.excel)
-      this.$axios.post('/api/emails/importExcel', formData)
+      this.$axios
+        .post('/api/emails/importExcel', formData)
         .then((res) => {
           console.log(res.data)
           this.emails = res.data.list
@@ -160,6 +159,21 @@ export default {
         .catch((err) => {
           console.log(err)
           this.loader = false
+        })
+    },
+    send () {
+      const userId = JSON.parse(localStorage.getItem('user'))._id
+      this.$axios
+        .post('/api/emails/sendEmails?userId=' + userId, {
+          emails: this.emails,
+          templateId: this.$route.params.id,
+          subject: this.subject
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
         })
     }
   }
