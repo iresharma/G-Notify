@@ -1,35 +1,22 @@
-# G-Notify
+# G-notify
 
--> More info soon
+G-notify is a mass mailer written in nuxt snd express without  any third party libraries like (nodemailer).
+We directly contact GAPIs to send the mail.
 
-### Todo
-- [x]  Setup vuetify
-    - [x]  Colors
-- [x]  Setup Express App
-    - [x]  folder structure
-    - [x]  Mongo setup
-    - [x]  logger
-- [x]  Setup axios
-  - [x]  interceptors
-  - [x]  CORS
-- [ ]  Views
-    - [ ]  templates
-      - [ ]  your
-      - [x]  public
-      - [ ]  upload
-    - [ ]  stats
-    - [ ]  import csv
-    - [x]  Templating guide
-    - [x]  send
-- [x]  Express app
-    - [x]  mailing logic (controller)
-    - [x]  db
-    - [x]  models
-    - [x]  g-apis
-    - [x]  puppeteer for template screenshot
-    - [x]  getUser profile
-    - [x]  authenticate and refresh token
-    - [x]  send mail
-    - [ ]  send mails at large
-    - [ ]  trackers
-    - [ ]  stats
+## Features
+- Template collection - (done)
+- create template -  (done)
+- upload template - (done)
+- send single template - (done)
+- send multiple template - (done)
+- tracking
+- stats
+## how to start using
+- create a .env file with the following variables
+  ```bash
+    GMAIL_CLIENT_ID="your client id"
+    GMAIL_CLIENT_SECRET="your client secret"
+    GMAIL_REDIRECT_URL="your redirect url"
+    dbURI="your mongodb url"
+    BASEURL="http://localhost:3000"
+  ```

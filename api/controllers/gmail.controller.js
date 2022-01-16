@@ -91,36 +91,14 @@ const sendSingleMessage = (
   attachments = null
 ) => {
   return new Promise((resolve, reject) => {
-    const msg = createMimeMessage()
-    msg.setSender(`<${from}>`)
+    const msg = createMail(
+      HTML,
+      from,
+      subject,
+      plainText,
+      attachments,
+      reject)
     msg.setTo(`<${recipient}>`)
-    // msg.setCc('Abc Def <abc@def.com>')
-    // msg.setBcc(['fgh@jkl.com', 'test2@test.com', { name: 'Name', addr: 'test3@test.com' }])
-    msg.setSubject(subject)
-    // add html version
-    if (HTML) { msg.setMessage('text/html', HTML) }
-    // add alternative plain text version
-    msg.setMessage('text/plain', plainText)
-    if (attachments) {
-      if (attachments.length) {
-        attachments.forEach((attachment) => {
-          const name = attachment.name
-          const extension = attachment.name.split('.').pop()
-          let mimeType = ''
-          if (IMAGE_EXT.includes(extension)) {
-            mimeType = 'image/' + extension
-          } else if (PDF_EXT.includes(extension)) {
-            mimeType = 'application/pdf'
-          } else if (OTHER_TYPES.keys().includes(extension)) {
-            mimeType = OTHER_TYPES[extension]
-          } else {
-            reject(Error('file format not supported'))
-          }
-          const file = fs.readFileSync(attachment.path, { encoding: 'base64' })
-          msg.addAttachment(name, mimeType, file)
-        })
-      }
-    }
 
     // console.log(msg.asRaw())
 
@@ -151,36 +129,15 @@ const sendMultipleMails = (
   attachments = null
 ) => {
   return new Promise((resolve, reject) => {
-    const msg = createMimeMessage()
-    msg.setSender(`<${from}>`)
+    const msg = createMail(
+      HTML,
+      from,
+      subject,
+      plainText,
+      attachments,
+      reject)
     msg.setTo(`<${recipients[0]}>`)
     msg.setBcc(recipients.slice(1))
-    // msg.setBcc(['fgh@jkl.com', 'test2@test.com', { name: 'Name', addr: 'test3@test.com' }])
-    msg.setSubject(subject)
-    // add html version
-    if (HTML) { msg.setMessage('text/html', HTML) }
-    // add alternative plain text version
-    msg.setMessage('text/plain', plainText)
-    if (attachments) {
-      if (attachments.length) {
-        attachments.forEach((attachment) => {
-          const name = attachment.name
-          const extension = attachment.name.split('.').pop()
-          let mimeType = ''
-          if (IMAGE_EXT.includes(extension)) {
-            mimeType = 'image/' + extension
-          } else if (PDF_EXT.includes(extension)) {
-            mimeType = 'application/pdf'
-          } else if (OTHER_TYPES.keys().includes(extension)) {
-            mimeType = OTHER_TYPES[extension]
-          } else {
-            reject(Error('file format not supported'))
-          }
-          const file = fs.readFileSync(attachment.path, { encoding: 'base64' })
-          msg.addAttachment(name, mimeType, file)
-        })
-      }
-    }
 
     console.log(msg.asRaw())
 
@@ -201,3 +158,44 @@ const sendMultipleMails = (
 }
 
 module.exports = { getCredLink, getToken, sendSingleMessage, loadUser, sendMultipleMails }
+
+// Non exported functions
+
+const createMail = (
+  HTML = null,
+  from,
+  subject,
+  plainText,
+  attachments = null,
+  reject
+) => {
+  const msg = createMimeMessage()
+  msg.setSender(`<${from}>`)
+  // msg.setBcc(['fgh@jkl.com', 'test2@test.com', { name: 'Name', addr: 'test3@test.com' }])
+  msg.setSubject(subject)
+  // add html version
+  if (HTML) { msg.setMessage('text/html', HTML) }
+  // add alternative plain text version
+  msg.setMessage('text/plain', plainText)
+  if (attachments) {
+    if (attachments.length) {
+      attachments.forEach((attachment) => {
+        const name = attachment.name
+        const extension = attachment.name.split('.').pop()
+        let mimeType = ''
+        if (IMAGE_EXT.includes(extension)) {
+          mimeType = 'image/' + extension
+        } else if (PDF_EXT.includes(extension)) {
+          mimeType = 'application/pdf'
+        } else if (OTHER_TYPES.keys().includes(extension)) {
+          mimeType = OTHER_TYPES[extension]
+        } else {
+          reject(Error('file format not supported'))
+        }
+        const file = fs.readFileSync(attachment.path, { encoding: 'base64' })
+        msg.addAttachment(name, mimeType, file)
+      })
+    }
+  }
+  return msg
+}

@@ -45,15 +45,24 @@ router.post('/importExcel', upload.single('excel'), async (req, res) => {
 })
 
 router.post('/sendEmails', async (req, res) => {
-  const { templateId, subject, emails } = req.body
+  const { templateId, subject, emails, enableTracking } = req.body
   const template = await dbFunction.getTemplate(templateId)
   const user = await dbFunction.getUserDataById(req.query.userId)
-  try {
-    await emailFunction.sendMultipleMails(JSON.stringify(user.token), template.content, emails, user.user.email, subject, template.plainText)
-    return res.status(200).send({ message: 'Emails sent' })
-  } catch (err) {
-    console.log(err)
-    return res.status(500).send({ err })
+  if (enableTracking) {
+    try {
+      // await emailFunction
+    } catch (err) {
+      console.log(err)
+      return res.status(500).send({ err })
+    }
+  } else {
+    try {
+      await emailFunction.sendMultipleMails(JSON.stringify(user.token), template.content, emails, user.user.email, subject, template.plainText)
+      return res.status(200).send({ message: 'Emails sent' })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).send({ err })
+    }
   }
 })
 

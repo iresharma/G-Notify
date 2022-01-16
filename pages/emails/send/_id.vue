@@ -44,6 +44,11 @@
         <br>
         <v-text-field v-model="subject" class="mx-2" label="Subject" required />
         <br>
+        <v-checkbox
+          v-model="enableTracking"
+          label="Add tracking"
+        />
+        <br>
         <v-btn color="primary" class="mx-2" type="submit" @click="send">
           Send
         </v-btn>
@@ -137,7 +142,8 @@ export default {
       excel: null,
       dialog: false,
       loader: false,
-      subject: null
+      subject: null,
+      enableTracking: false
     }
   },
   head: {
@@ -167,7 +173,8 @@ export default {
         .post('/api/emails/sendEmails?userId=' + userId, {
           emails: this.emails,
           templateId: this.$route.params.id,
-          subject: this.subject
+          subject: this.subject,
+          tracking: this.enableTracking
         })
         .then((res) => {
           console.log(res.data)
