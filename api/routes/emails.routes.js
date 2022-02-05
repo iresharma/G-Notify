@@ -48,22 +48,27 @@ router.post('/sendEmails', async (req, res) => {
   const { templateId, subject, emails, enableTracking } = req.body
   const template = await dbFunction.getTemplate(templateId)
   const user = await dbFunction.getUserDataById(req.query.userId)
+  const email = await dbFunction.createEmail(templateId, user.user.email, emails, subject)
   if (enableTracking) {
     try {
-      // await emailFunction
-    } catch (err) {
-      console.log(err)
-      return res.status(500).send({ err })
-    }
-  } else {
-    try {
-      await emailFunction.sendMultipleMails(JSON.stringify(user.token), template.content, emails, user.user.email, subject, template.plainText)
-      return res.status(200).send({ message: 'Emails sent' })
+      // await tracking
     } catch (err) {
       console.log(err)
       return res.status(500).send({ err })
     }
   }
+  try {
+    await emailFunction.sendMultipleMails(JSON.stringify(user.token), template.content, emails, user.user.email, subject, template.plainText)
+    return res.status(200).send({ message: 'Emails sent', emailId: email._id })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send({ err })
+  }
+})
+
+router.get('/:user', async (req, res) => {
+  const emails = await dbFunction.getEmailsByUser(req.params.user)
+  return res.status(200).send({ emails })
 })
 
 module.exports = router

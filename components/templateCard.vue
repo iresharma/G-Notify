@@ -1,5 +1,7 @@
 <template>
-  <v-card style="margin: 0.3rem; display: flex; flex-direction: column; justify-content: space-between;">
+  <v-card
+    style="margin: 0.3rem; display: flex; flex-direction: column; justify-content: space-between;"
+  >
     <img
       :src="`/api/templates/renderTemplate?quality=low&id=${id}`"
       alt="rendered-out"
@@ -17,7 +19,7 @@
         <v-btn icon @click="$router.push(`/templates/create/${id}`)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn icon @click="addLike(id)">
           <v-icon>mdi-thumb-up-outline</v-icon>
         </v-btn>
         <v-dialog v-model="dialog">
@@ -33,7 +35,7 @@
           </v-card>
         </v-dialog>
 
-        <v-btn color="primary" text @click="$router.push(`/emails/send/${id}`)">
+        <v-btn color="primary" text @click="$router.push(`/emails/${id}`)">
           Use
         </v-btn>
         <v-btn color="primary" outlined @click="sendTest">
@@ -113,6 +115,12 @@ export default {
       return btoa(
         arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
       )
+    },
+    addLike (id) {
+      this.$axios.get(`/api/templates/${id}/like`).then((response) => {
+        console.log(response.data)
+        this.$emit('updateLikes', response.data.likes)
+      })
     }
   }
 }

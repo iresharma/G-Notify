@@ -68,4 +68,9 @@ router.get('/:id', async (req, res) => {
   return res.status(200).send({ template })
 })
 
+router.get('/:id/like', async (req, res) => {
+  const likes = await dbFunction.addLike(req.params.id)
+  return res.status(200).send({ likes })
+})
+
 module.exports = router

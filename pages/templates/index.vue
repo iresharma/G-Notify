@@ -19,6 +19,7 @@
         :template-content="template.content"
         :likes="template.likes"
         :name="template.name"
+        @updateLikes="(e) => template.likes = e"
       />
     </div>
     <v-tooltip top>

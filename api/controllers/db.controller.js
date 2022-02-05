@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const userModel = require('../models/user.model')
 const templateModel = require('../models/template.model')
+const emailModel = require('../models/email.model')
 
 const getUserData = (email, token) => {
   // console.log(email)
@@ -54,7 +55,7 @@ const createUser = (user, token) => {
 const getTemplates = (start) => {
   return new Promise((resolve, reject) => {
     templateModel
-      .find({}, null, { skip: Number(start) * 20, limit: 20 })
+      .find({ public: true }, null, { skip: Number(start) * 20, limit: 20 })
       .populate('user')
       .exec((err, template) => {
         if (err) {
@@ -102,6 +103,43 @@ const createTemplate = (data) => {
   })
 }
 
+const addLike = (id) => {
+  return new Promise((resolve, reject) => {
+    templateModel.findOneAndUpdate({ _id: id }, { $inc: { likes: 1 } }, (err, template) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(template.likes)
+    })
+  })
+}
+
+const createEmail = (templateId, user, emails, subject) => {
+  return new Promise((resolve, reject) => {
+    const recipients = emails.map(recipient => ({ email: recipient, read: false }))
+    emailModel.create(
+      { template: templateId, recipients, user, subject, _id: mongoose.Types.ObjectId() },
+      (err, email) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(email)
+      }
+    )
+  })
+}
+
+const getEmailsByUser = (email) => {
+  return new Promise((resolve, reject) => {
+    emailModel.find({ user: email }).exec((err, emails) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(emails)
+    })
+  })
+}
+
 module.exports = {
   getUserData,
   createUser,
@@ -109,5 +147,8 @@ module.exports = {
   getTemplate,
   getUserDataById,
   getTemplateCount,
-  createTemplate
+  createTemplate,
+  addLike,
+  createEmail,
+  getEmailsByUser
 }

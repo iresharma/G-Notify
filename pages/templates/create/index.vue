@@ -1,13 +1,8 @@
 <template>
   <div class="container">
-    <v-alert
-      dense
-      icon="mdi-information"
-      text
-      type="info"
-      color="blue"
-    >
-      While creating the template preferably put all your CSS in a style inside the body or make it inline.
+    <v-alert dense icon="mdi-information" text type="info" color="blue">
+      While creating the template preferably put all your CSS in a style inside
+      the body or make it inline.
     </v-alert>
     <v-alert
       dense
@@ -16,9 +11,12 @@
       type="error"
       color="red"
     >
-      The rendered version on the right side isn't an accurate representaion of what the email will look like.
+      The rendered version on the right side isn't an accurate representaion of
+      what the email will look like.
     </v-alert>
-    <v-row style="margin: 1rem 0; display: flex; justify-content: space-between;">
+    <v-row
+      style="margin: 1rem 0; display: flex; justify-content: space-between;"
+    >
       <v-col>
         <v-btn color="danger" text @click="content = ''">
           clear
@@ -27,14 +25,22 @@
           Templating Rules
         </v-btn>
       </v-col>
-      <v-col style="display: flex;">
-        <v-text-field v-model="templateName" label="Template name" />
-        <v-btn color="primary">
-          Test
-        </v-btn>
-        <v-btn color="primary" outlined @click="upload">
-          Create
-        </v-btn>
+      <v-col>
+        <v-row>
+          <v-text-field v-model="templateName" label="Template name" />
+          <v-btn color="primary">
+            Test
+          </v-btn>
+          <v-btn color="primary" outlined @click="upload">
+            Create
+          </v-btn>
+        </v-row>
+        <v-row>
+          <v-checkbox
+            v-model="makePublic"
+            label="Make this public for others to re-use"
+          />
+        </v-row>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -74,7 +80,9 @@
 
 <script>
 let AceEditor
-if (process.client) { AceEditor = require('vue2-ace-editor') }
+if (process.client) {
+  AceEditor = require('vue2-ace-editor')
+}
 export default {
   components: {
     AceEditor
@@ -83,13 +91,13 @@ export default {
   data () {
     return {
       templateName: null,
-      content:
-`<h1>Hello</h1>
+      content: `<h1>Hello</h1>
 <h3>This is what your mail might look like</h3>
 <p> 
     But there are major rules when it comes html on emails. <br>
     <a href="/templates/rules" target="_blank">Here</a> is a guide to the same
-</p>`
+</p>`,
+      makePublic: true
     }
   },
   head: {
@@ -108,12 +116,14 @@ export default {
       require('brace/snippets/javascript') // snippet
     },
     upload () {
-      this.$axios.post('/api/templates/createTemplate', {
-        content: this.content,
-        name: this.templateName,
-        likes: 0,
-        user: JSON.parse(localStorage.getItem('user'))._id
-      })
+      this.$axios
+        .post('/api/templates/createTemplate', {
+          content: this.content,
+          name: this.templateName,
+          likes: 0,
+          user: JSON.parse(localStorage.getItem('user'))._id,
+          public: this.makePublic
+        })
         .then((response) => {
           this.$store.commit('systemConfig/SNACKBAR', {
             show: true,
