@@ -66,9 +66,14 @@ router.post('/sendEmails', async (req, res) => {
   }
 })
 
-router.get('/:user', async (req, res) => {
+router.get('/list/:user', async (req, res) => {
   const emails = await dbFunction.getEmailsByUser(req.params.user)
   return res.status(200).send({ emails })
+})
+
+router.get('/:id', async (req, res) => {
+  const email = await dbFunction.getEmailById(req.params.id)
+  return res.status(200).send({ email })
 })
 
 module.exports = router

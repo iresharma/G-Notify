@@ -131,11 +131,22 @@ const createEmail = (templateId, user, emails, subject) => {
 
 const getEmailsByUser = (email) => {
   return new Promise((resolve, reject) => {
-    emailModel.find({ user: email }).exec((err, emails) => {
+    emailModel.find({ user: email }).populate('template').exec((err, emails) => {
       if (err) {
         return reject(err)
       }
       resolve(emails)
+    })
+  })
+}
+
+const getEmailById = (id) => {
+  return new Promise((resolve, reject) => {
+    emailModel.findOne({ _id: id }).populate('template').exec((err, email) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(email)
     })
   })
 }
@@ -150,5 +161,6 @@ module.exports = {
   createTemplate,
   addLike,
   createEmail,
-  getEmailsByUser
+  getEmailsByUser,
+  getEmailById
 }
