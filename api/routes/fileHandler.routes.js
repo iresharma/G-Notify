@@ -37,4 +37,11 @@ router.get('/cdn', async (req, res) => {
   return res.status(200).send(resp)
 })
 
+router.get('/get-embed-link', async (req, res) => {
+  const path = req.query.path
+  const days = req.query.days
+  const resp = await bucketHandler.getEmbedLink(path, days)
+  return res.status(200).send(resp)
+})
+
 module.exports = router

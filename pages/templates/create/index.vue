@@ -73,7 +73,7 @@
           @init="editorInit"
         />
       </v-col>
-      <v-col style="padding: 2rem;" v-html="content" />
+      <v-col style="padding: 2rem; overflow: hidden" v-html="content" />
     </v-row>
   </div>
 </template>

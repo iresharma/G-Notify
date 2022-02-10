@@ -25,8 +25,27 @@
     <v-card-text>
       <b>Type:</b> Image<br>
       <b>Path:</b> <code>{{ file.path }}</code><br>
-      <b>Size:</b> {{ file.size }}B <br>
+      <b>Size:</b> {{ formatBytes(file.size) }} <br>
     </v-card-text>
+    <v-card-actions>
+      <v-btn-toggle>
+        <v-btn @click="days--">
+          <v-icon>mdi-minus</v-icon>
+        </v-btn>
+
+        <v-btn disabled>
+          Days: {{ days }}
+        </v-btn>
+
+        <v-btn @click="days++">
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+
+        <v-btn :color="buttonColor" @click="getEmbedLink">
+          {{ buttonMessage }}
+        </v-btn>
+      </v-btn-toggle>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -40,7 +59,11 @@ export default {
   },
   data () {
     return {
-      signedUrl: null
+      signedUrl: null,
+      days: 1,
+      embedURL: null,
+      buttonColor: 'default',
+      buttonMessage: 'Get embed link'
     }
   },
   async fetch () {
@@ -52,8 +75,39 @@ export default {
     this.signedUrl = response.data[0]
   },
   methods: {
+    formatBytes (bytes, decimals = 2) {
+      if (bytes === 0) { return '0 Bytes' }
+
+      const k = 1024
+      const dm = decimals < 0 ? 0 : decimals
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+      const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+    },
     download () {
       window.open(this.signedUrl, '_blank')
+    },
+    getEmbedLink () {
+      this.$axios.get('/api/files/get-embed-link', {
+        params: {
+          path: this.file.path,
+          days: this.days
+        }
+      }).then((response) => {
+        this.embedURL = response.data[0]
+        if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          this.buttonMessage = 'Link Copied'
+          this.buttonColor = 'success'
+          setTimeout(() => {
+            this.buttonMessage = 'Get embed link'
+            this.buttonColor = 'default'
+          }, 2000)
+          return navigator.clipboard.writeText(this.embedURL)
+        }
+        return Promise.reject(new Error('The Clipboard API is not available.'))
+      })
     }
   }
 }

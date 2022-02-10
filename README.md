@@ -4,14 +4,14 @@ G-notify is a mass mailer written in nuxt snd express without  any third party l
 We directly contact GAPIs to send the mail.
 
 ## Features
-[x] Template collection 
-[x] create template -
-[x] upload template 
-[x] send single template 
-[x] send multiple template 
-[x] asset management for people to upload files for hosting, basically a cdn mainly for images but also supports other things
-[ ] tracking
-[ ] stats
+- [x] Template collection 
+- [x] create template -
+- [x] upload template 
+- [x] send single template 
+- [x] send multiple template 
+- [x] asset management for people to upload files for hosting, basically a cdn mainly for images but also supports other things
+- [ ] tracking
+- [ ] stats
 ## how to start using
 - create a .env file with the following variables
   ```bash

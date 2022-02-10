@@ -24,7 +24,15 @@ const getSignedURL = (path) => {
   })
 }
 
-module.exports = {
-  uploadFile,
-  getSignedURL
+const getEmbedLink = (path, days) => {
+  return new Promise((resolve, reject) => {
+    const file = bucket.file(path)
+    const config = {
+      action: 'read',
+      expires: (+new Date()) + (86400000 * days)
+    }
+    file.getSignedUrl(config).then(resolve).catch(reject)
+  })
 }
+
+module.exports = { uploadFile, getSignedURL, getEmbedLink }
