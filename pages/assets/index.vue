@@ -1,6 +1,21 @@
 <template>
   <div class="container">
-    <h1>Assets will be shown here soon</h1>
+    <div v-if="files === null" class="loader">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      />
+    </div>
+    <div v-else-if="files.length === 0">
+      <h1>
+        No files found
+      </h1>
+    </div>
+    <v-row v-else>
+      <v-col v-for="file in files" :key="file._id" cols="4">
+        <file-card :file="file" />
+      </v-col>
+    </v-row>
     <v-tooltip top>
       <template #activator="{ on, attrs }">
         <v-btn
@@ -23,9 +38,21 @@
 </template>
 
 <script>
+import fileCard from '@/components/fileCard.vue'
 export default {
-  layout: 'dashboard'
-
+  components: {
+    fileCard
+  },
+  layout: 'dashboard',
+  async asyncData ({ $axios, store }) {
+    const userId = store.getters['auth/user']._id
+    const response = await $axios.get('/api/files/list', {
+      params: {
+        user: userId
+      }
+    })
+    return { files: response.data }
+  }
 }
 </script>
 

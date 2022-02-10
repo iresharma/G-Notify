@@ -13,6 +13,18 @@ const uploadFile = (filePath, userId) => {
   })
 }
 
+const getSignedURL = (path) => {
+  return new Promise((resolve, reject) => {
+    const file = bucket.file(path)
+    const config = {
+      action: 'read',
+      expires: (+new Date()) + 86400000
+    }
+    file.getSignedUrl(config).then(resolve).catch(reject)
+  })
+}
+
 module.exports = {
-  uploadFile
+  uploadFile,
+  getSignedURL
 }

@@ -7,6 +7,7 @@
       multiple
       show-size
       truncate-length="20"
+      accept="image/*"
     />
     <v-btn @click="upload">
       upload

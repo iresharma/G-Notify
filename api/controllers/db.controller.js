@@ -155,13 +155,11 @@ const getEmailById = (id) => {
   })
 }
 
-const getFileIdsByUserId = (id) => {
+const getFileByUserId = (id) => {
   return new Promise((resolve, reject) => {
-    userModel.findOne({ _id: id }).populate('files').exec((err, user) => {
-      if (err) {
-        return reject(err)
-      }
-      resolve(user.files)
+    fileModel.find({ userId: id }).exec((err, files) => {
+      if (err) { return reject(err) }
+      resolve(files)
     })
   })
 }
@@ -193,6 +191,6 @@ module.exports = {
   createEmail,
   getEmailsByUser,
   getEmailById,
-  getFileIdsByUserId,
+  getFileByUserId,
   addFiles
 }
