@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const dir = path.join(path.resolve(path.dirname('')), 'api')
 const excel = require('./excel.controller')
+const bucketHandler = require('./bucket.controller')
 
 const readTemplate = (file) => {
   return new Promise((resolve, reject) => {
@@ -27,4 +28,14 @@ const readExcel = (file) => {
   })
 }
 
-module.exports = { readTemplate, readExcel }
+const uploadFile = (filePath, userID) => {
+  return new Promise((resolve, reject) => {
+    bucketHandler.uploadFile(filePath, userID).then(resolve).catch(reject)
+  })
+}
+
+const unlinkFile = (file) => {
+  fs.unlink(`${dir}/upload/${file}`, (_, __) => console.info)
+}
+
+module.exports = { readTemplate, readExcel, uploadFile, unlinkFile }

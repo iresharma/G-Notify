@@ -36,7 +36,7 @@ router.get('/sendTest', async (req, res) => {
 
 router.post('/importExcel', upload.single('excel'), async (req, res) => {
   try {
-    const list = await fileHandler.readExcel(req.file.path.split('/').pop())
+    const list = await fileHandler.readExcel(req.file.path.split('/').pop().replace(' ', '+'))
     return res.status(200).send({ list })
   } catch (err) {
     console.log(err)

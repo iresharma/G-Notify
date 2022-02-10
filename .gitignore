@@ -91,3 +91,5 @@ sw.*
 
 # Uploads
 src/api/uploads/*
+
+bucket_key.json

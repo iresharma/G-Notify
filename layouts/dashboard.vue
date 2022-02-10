@@ -65,13 +65,15 @@ export default {
     CustFooter,
     AppBar
   },
+  layout: 'dashboard',
   data () {
     return {
       items: [
         { title: 'Home', icon: 'mdi-home', to: '/home' },
         { title: 'Templates', icon: 'mdi-view-dashboard', to: '/templates' },
         { title: 'Templating Rules', icon: 'mdi-book-variant', to: '/templates/rules' },
-        { title: 'Mail', icon: 'mdi-at', to: '/emails' }
+        { title: 'Mail', icon: 'mdi-at', to: '/emails' },
+        { title: 'Assets', icon: 'mdi-file', to: '/assets' }
       ]
     }
   },

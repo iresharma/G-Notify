@@ -5,6 +5,7 @@ const basicRouter = require('./routes/basic.routes')
 const templateRouter = require('./routes/template.routes')
 const emailRouter = require('./routes/emails.routes')
 const trackerRouter = require('./routes/tracker.routes')
+const fileManagerRouter = require('./routes/fileHandler.routes')
 
 const app = express()
 
@@ -13,7 +14,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 const dbURI = process.env.dbURI || ''
-// console.log(dbURI)
 
 mongoose
   .connect(dbURI, {
@@ -28,6 +28,7 @@ app.use('/', basicRouter)
 app.use('/templates', templateRouter)
 app.use('/emails', emailRouter)
 app.use('/tracking', trackerRouter)
+app.use('/files', fileManagerRouter)
 
 export default {
   path: '/api',

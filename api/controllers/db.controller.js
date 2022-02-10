@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const userModel = require('../models/user.model')
 const templateModel = require('../models/template.model')
 const emailModel = require('../models/email.model')
+const fileModel = require('../models/files.model')
+const fileHandler = require('./fileHandler.controller')
 
 const getUserData = (email, token) => {
   // console.log(email)
@@ -10,6 +12,8 @@ const getUserData = (email, token) => {
     userModel.findOne({ 'user.email': email }, (err, data) => {
       if (err) {
         reject(err)
+      } else if (!data) {
+        resolve(null)
       } else {
         data.token = JSON.parse(token)
         userModel.findOneAndUpdate({ _id: data._id }, data, (err, data) => {
@@ -151,6 +155,32 @@ const getEmailById = (id) => {
   })
 }
 
+const getFileIdsByUserId = (id) => {
+  return new Promise((resolve, reject) => {
+    userModel.findOne({ _id: id }).populate('files').exec((err, user) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(user.files)
+    })
+  })
+}
+
+const addFiles = async (userId, files) => {
+  await Promise.all(files.map(file => (fileHandler.uploadFile(file.path, userId))))
+  await fileModel.insertMany(files.map(file => ({
+    size: file.size,
+    name: file.originalname,
+    user: userId,
+    path: `${userId}/${file.path.split('/').pop().replace(' ', '+')}`,
+    mimeType: file.mimeType
+  })))
+  Promise.all(files.map(file => fileHandler.unlinkFile(file.path.split('/').pop())))
+  return new Promise((resolve, reject) => {
+    fileModel.find({ user: userId }).then(resolve).catch(reject)
+  })
+}
+
 module.exports = {
   getUserData,
   createUser,
@@ -162,5 +192,7 @@ module.exports = {
   addLike,
   createEmail,
   getEmailsByUser,
-  getEmailById
+  getEmailById,
+  getFileIdsByUserId,
+  addFiles
 }
