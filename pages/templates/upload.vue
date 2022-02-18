@@ -58,7 +58,7 @@ export default {
   data () {
     return {
       template: null,
-      file: null,
+      file: [],
       templateName: null,
       plainText: null,
       makePublic: true

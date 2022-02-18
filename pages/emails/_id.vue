@@ -23,8 +23,8 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData ({ $axios, route }) {
-    const response = await $axios.get(`/api/emails/${route.params.id}`)
+  async mounted () {
+    const response = await this.$axios.get(`/api/emails/${this.$route.params.id}`)
     return { email: response.data.email }
   }
 }

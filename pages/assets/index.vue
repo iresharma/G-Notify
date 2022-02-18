@@ -44,9 +44,12 @@ export default {
     fileCard
   },
   layout: 'dashboard',
-  async asyncData ({ $axios, store }) {
-    const userId = store.getters['auth/user']._id
-    const response = await $axios.get('/api/files/list', {
+  data () {
+    return { files: [] }
+  },
+  async mounted () {
+    const userId = this.store.getters['auth/user']._id
+    const response = await this.$axios.get('/api/files/list', {
       params: {
         user: userId
       }

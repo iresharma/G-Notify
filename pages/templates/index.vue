@@ -71,15 +71,6 @@ export default {
     templateCard
   },
   layout: 'dashboard',
-  async asyncData ({ $axios }) {
-    const templates = await $axios.get('/api/templates', {
-      params: {
-        page: 0
-      }
-    })
-    const length = await $axios.get('/api/templates/count')
-    return { templates: templates.data.templates, length: Number((length.data.count / 20) + 1) }
-  },
   data () {
     return {
       page: 1,
@@ -105,6 +96,15 @@ export default {
         })
       })
     }
+  },
+  async mounted () {
+    const templates = await this.$axios.get('/api/templates', {
+      params: {
+        page: 0
+      }
+    })
+    const length = await this.$axios.get('/api/templates/count')
+    return { templates: templates.data.templates, length: Number((length.data.count / 20) + 1) }
   }
 }
 </script>

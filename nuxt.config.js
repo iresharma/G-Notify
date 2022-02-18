@@ -15,6 +15,9 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
+  target: 'static',
+  ssr: 'false',
+
   // router config
   router: {
     middleware: ['auth']
@@ -23,6 +26,10 @@ export default {
   // Express server settings
   serverMiddleware: {
     '/api': '~/api'
+  },
+
+  generate: {
+    fallback: true
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

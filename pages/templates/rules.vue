@@ -8,15 +8,23 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData ({ $content }) {
-    const page = await $content('rules').fetch()
-
+  data () {
     return {
-      page
+      page: {
+        title: 'Templating rules',
+        content: '<p>This is the content of the page.</p>'
+      }
     }
   },
   head: {
     title: 'Templating rules'
+  },
+  async mounted () {
+    const page = await this.$content('rules').fetch()
+
+    return {
+      page
+    }
   }
 }
 </script>

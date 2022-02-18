@@ -37,15 +37,15 @@ import emailBox from '@/components/emailBox.vue'
 export default {
   components: { emailBox },
   layout: 'dashboard',
-  async asyncData ({ $axios, store }) {
-    const userEmail = store.getters['auth/user'].email
-    const response = await $axios.get(`/api/emails/list/${userEmail}`)
-    return { emails: response.data.emails }
-  },
   data () {
     return {
       emails: null
     }
+  },
+  async mounted () {
+    const userEmail = this.store.getters['auth/user'].email
+    const response = await this.$axios.get(`/api/emails/list/${userEmail}`)
+    return { emails: response.data.emails }
   }
 }
 </script>

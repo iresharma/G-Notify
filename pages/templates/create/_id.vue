@@ -72,9 +72,12 @@
 <script>
 export default {
   layout: 'dashboard',
-  async asyncData ({ params, $axios }) {
-    const id = params.id
-    const data = await $axios.$get(`/api/templates/${id}`)
+  head: {
+    title: 'Upload template'
+  },
+  async mounted () {
+    const id = this.$route.params.id
+    const data = await this.$axios.$get(`/api/templates/${id}`)
     const template = data.template
     return {
       templateName: template.name,
@@ -89,9 +92,6 @@ export default {
         minimap: false
       }
     }
-  },
-  head: {
-    title: 'Upload template'
   },
   methods: {
     onChange (newValue) {
