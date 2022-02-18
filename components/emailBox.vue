@@ -4,7 +4,7 @@
     :loading="loading"
   >
     <v-img
-      :src="`/api/templates/renderTemplate?quality=low&id=${templateId}`"
+      :src="`https://g-notify.herokuapp.com/api/templates/renderTemplate?quality=low&id=${templateId}`"
       height="250"
     />
     <v-card-title>{{ subject }}</v-card-title>
@@ -70,7 +70,7 @@ export default {
     sendTest () {
       this.loading = true
       this.$axios
-        .get('/api/emails/sendTest', {
+        .get('https://g-notify.herokuapp.com/api/emails/sendTest', {
           params: {
             template: this.templateId,
             user: this.user

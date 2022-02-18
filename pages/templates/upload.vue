@@ -72,7 +72,7 @@ export default {
       const formData = new FormData()
       formData.append('file', this.file)
       this.$axios
-        .post('/api/templates/readTemplate', formData, {
+        .post('https://g-notify.herokuapp.com/api/templates/readTemplate', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -91,7 +91,7 @@ export default {
     },
     upload () {
       this.$axios
-        .post('/api/templates/createTemplate', {
+        .post('https://g-notify.herokuapp.com/api/templates/createTemplate', {
           content: this.template,
           name: this.templateName,
           likes: 0,

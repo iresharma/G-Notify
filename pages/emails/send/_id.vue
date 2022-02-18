@@ -130,7 +130,7 @@ export default {
   layout: 'dashboard',
   asyncData: async ({ params, $axios }) => {
     const templateId = params.id
-    const tempData = await $axios.get(`/api/templates/${templateId}`)
+    const tempData = await $axios.get(`https://g-notify.herokuapp.com/api/templates/${templateId}`)
     return {
       template: tempData.data.template
     }
@@ -156,7 +156,7 @@ export default {
       const formData = new FormData()
       formData.append('excel', this.excel)
       this.$axios
-        .post('/api/emails/importExcel', formData)
+        .post('https://g-notify.herokuapp.com/api/emails/importExcel', formData)
         .then((res) => {
           console.log(res.data)
           this.emails = res.data.list
@@ -170,7 +170,7 @@ export default {
     send () {
       const userId = JSON.parse(localStorage.getItem('user'))._id
       this.$axios
-        .post('/api/emails/sendEmails?userId=' + userId, {
+        .post('https://g-notify.herokuapp.com/api/emails/sendEmails?userId=' + userId, {
           emails: this.emails,
           templateId: this.$route.params.id,
           subject: this.subject,

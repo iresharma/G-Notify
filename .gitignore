@@ -89,7 +89,4 @@ sw.*
 # Vim swap files
 *.swp
 
-# Uploads
-src/api/uploads/*
-
 bucket_key.json

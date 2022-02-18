@@ -82,7 +82,7 @@ export default {
   },
   watch: {
     page () {
-      this.$axios.get('/api/templates', {
+      this.$axios.get('https://g-notify.herokuapp.com/api/templates', {
         params: {
           page: this.page - 1
         }
@@ -98,12 +98,12 @@ export default {
     }
   },
   async mounted () {
-    const templates = await this.$axios.get('/api/templates', {
+    const templates = await this.$axios.get('https://g-notify.herokuapp.com/api/templates', {
       params: {
         page: 0
       }
     })
-    const length = await this.$axios.get('/api/templates/count')
+    const length = await this.$axios.get('https://g-notify.herokuapp.com/api/templates/count')
     return { templates: templates.data.templates, length: Number((length.data.count / 20) + 1) }
   }
 }

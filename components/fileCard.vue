@@ -67,7 +67,7 @@ export default {
     }
   },
   async fetch () {
-    const response = await this.$axios.get('/api/files/cdn', {
+    const response = await this.$axios.get('https://g-notify.herokuapp.com/api/files/cdn', {
       params: {
         path: this.file.path
       }
@@ -90,7 +90,7 @@ export default {
       window.open(this.signedUrl, '_blank')
     },
     getEmbedLink () {
-      this.$axios.get('/api/files/get-embed-link', {
+      this.$axios.get('https://g-notify.herokuapp.com/api/files/get-embed-link', {
         params: {
           path: this.file.path,
           days: this.days

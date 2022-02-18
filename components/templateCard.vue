@@ -3,7 +3,7 @@
     style="margin: 0.3rem; display: flex; flex-direction: column; justify-content: space-between;"
   >
     <img
-      :src="`/api/templates/renderTemplate?quality=low&id=${id}`"
+      :src="`https://g-notify.herokuapp.com/api/templates/renderTemplate?quality=low&id=${id}`"
       alt="rendered-out"
       style="width:100%"
     >
@@ -89,7 +89,7 @@ export default {
   methods: {
     sendTest () {
       this.$axios
-        .get('/api/emails/sendTest', {
+        .get('https://g-notify.herokuapp.com/api/emails/sendTest', {
           params: {
             template: this.id,
             user: this.user.id
@@ -117,7 +117,7 @@ export default {
       )
     },
     addLike (id) {
-      this.$axios.get(`/api/templates/${id}/like`).then((response) => {
+      this.$axios.get(`https://g-notify.herokuapp.com/api/templates/${id}/like`).then((response) => {
         console.log(response.data)
         this.$emit('updateLikes', response.data.likes)
       })

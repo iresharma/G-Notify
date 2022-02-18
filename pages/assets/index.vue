@@ -49,7 +49,7 @@ export default {
   },
   async mounted () {
     const userId = this.store.getters['auth/user']._id
-    const response = await this.$axios.get('/api/files/list', {
+    const response = await this.$axios.get('https://g-notify.herokuapp.com/api/files/list', {
       params: {
         user: userId
       }

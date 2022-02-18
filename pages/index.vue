@@ -77,7 +77,7 @@ export default {
   methods: {
     authorize () {
       this.$axios
-        .get('/api/auth', {
+        .get('https://g-notify.herokuapp.com/api/auth', {
           params: {},
           headers: {
             'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ export default {
     sendCode () {
       this.$axios
         .post(
-          '/api/auth',
+          'https://g-notify.herokuapp.com/api/auth',
           {
             code: this.userCode
           },

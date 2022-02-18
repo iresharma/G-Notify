@@ -77,7 +77,7 @@ export default {
   },
   async mounted () {
     const id = this.$route.params.id
-    const data = await this.$axios.$get(`/api/templates/${id}`)
+    const data = await this.$axios.$get(`https://g-notify.herokuapp.com/api/templates/${id}`)
     const template = data.template
     return {
       templateName: template.name,
@@ -98,8 +98,8 @@ export default {
       this.options.value = newValue.value
     },
     upload () {
-      this.$axios.post('/api/templates/createTemplate', {
-        content: this.options.value,
+      this.$axios.post('https://g-notify.herokuapp.com/api/templates/createTemplate', {
+        content: this.content,
         name: this.templateName,
         likes: 0,
         user: JSON.parse(localStorage.getItem('user'))._id

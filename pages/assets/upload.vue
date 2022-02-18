@@ -37,7 +37,7 @@ export default {
         formData.append('files', file)
       })
       this.$axios
-        .post('/api/files/upload', formData, {
+        .post('https://g-notify.herokuapp.com/api/files/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },

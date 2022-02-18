@@ -112,8 +112,8 @@ export default {
     },
     upload () {
       this.$axios
-        .post('/api/templates/createTemplate', {
-          content: this.options.value,
+        .post('https://g-notify.herokuapp.com/api/templates/createTemplate', {
+          content: this.content,
           name: this.templateName,
           likes: 0,
           user: JSON.parse(localStorage.getItem('user'))._id,
