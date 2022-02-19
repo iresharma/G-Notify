@@ -48,7 +48,7 @@ export default {
     return { files: [] }
   },
   async mounted () {
-    const userId = this.store.getters['auth/user']._id
+    const userId = JSON.parse(localStorage.getItem('user'))._id
     const response = await this.$axios.get('https://g-notify.herokuapp.com/api/files/list', {
       params: {
         user: userId

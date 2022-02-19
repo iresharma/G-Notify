@@ -1,5 +1,5 @@
 <template>
-  <pre class="container">
+  <pre>
 Effective date: 2022-12-01
 
 1. Introduction
