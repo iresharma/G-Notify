@@ -45,7 +45,7 @@ export default {
   async mounted () {
     const userEmail = this.store.getters['auth/user'].email
     const response = await this.$axios.get(`https://g-notify.herokuapp.com/api/emails/list/${userEmail}`)
-    return { emails: response.data.emails }
+    this.emails = response.data.emails
   }
 }
 </script>

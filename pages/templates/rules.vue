@@ -22,9 +22,7 @@ export default {
   async mounted () {
     const page = await this.$content('rules').fetch()
 
-    return {
-      page
-    }
+    this.page = page
   }
 }
 </script>

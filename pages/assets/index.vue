@@ -54,7 +54,7 @@ export default {
         user: userId
       }
     })
-    return { files: response.data }
+    this.files = response.data
   }
 }
 </script>

@@ -104,7 +104,8 @@ export default {
       }
     })
     const length = await this.$axios.get('https://g-notify.herokuapp.com/api/templates/count')
-    return { templates: templates.data.templates, length: Number((length.data.count / 20) + 1) }
+    this.templates = templates.data.templates
+    this.length = Number((length.data.count / 20) + 1)
   }
 }
 </script>

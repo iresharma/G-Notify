@@ -25,7 +25,7 @@ export default {
   layout: 'dashboard',
   async mounted () {
     const response = await this.$axios.get(`https://g-notify.herokuapp.com/api/emails/${this.$route.params.id}`)
-    return { email: response.data.email }
+    this.email = response.data.email
   }
 }
 </script>
