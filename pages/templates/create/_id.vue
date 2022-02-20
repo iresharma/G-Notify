@@ -72,17 +72,11 @@
 <script>
 export default {
   layout: 'dashboard',
-  head: {
-    title: 'Upload template'
-  },
-  async mounted () {
-    const id = this.$route.params.id
-    const data = await this.$axios.$get(`https://g-notify.herokuapp.com/api/templates/${id}`)
-    const template = data.template
+  data () {
     return {
-      templateName: template.name,
+      templateName: '',
       options: {
-        value: template.content,
+        value: 'Loading',
         language: 'html',
         fontSize: '13px',
         automaticLayout: true,
@@ -92,6 +86,16 @@ export default {
         minimap: false
       }
     }
+  },
+  head: {
+    title: 'Upload template'
+  },
+  async mounted () {
+    const id = this.$route.params.id
+    const data = await this.$axios.$get(`https://g-notify.herokuapp.com/api/templates/${id}`)
+    const template = data.template
+    this.templateName = template.name
+    this.options.value = template.content
   },
   methods: {
     onChange (newValue) {
