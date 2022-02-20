@@ -128,13 +128,6 @@
 <script>
 export default {
   layout: 'dashboard',
-  asyncData: async ({ params, $axios }) => {
-    const templateId = params.id
-    const tempData = await $axios.get(`https://g-notify.herokuapp.com/api/templates/${templateId}`)
-    return {
-      template: tempData.data.template
-    }
-  },
   data () {
     return {
       email: null,
@@ -148,6 +141,11 @@ export default {
   },
   head: {
     title: 'Send Email'
+  },
+  async mounted () {
+    const templateId = this.$route.params.id
+    const tempData = await this.$axios.get(`https://g-notify.herokuapp.com/api/templates/${templateId}`)
+    this.template = tempData.data.template
   },
   methods: {
     importExcel () {
