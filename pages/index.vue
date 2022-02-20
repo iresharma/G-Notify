@@ -4,8 +4,7 @@
       G-Notify
     </h1>
     <p>
-      A simple HTML based G-Notify for gmail accounts.<br>
-      Made by <code>@iresharma</code> maintained by <code>@GDSC-NIE</code>
+      A simple gmail backed HTML mass mailer with a jam pack of features
     </p>
     <p v-if="isLogged">
       <v-btn elevation="3" color="primary" @click="$router.push('/home')">
@@ -19,7 +18,7 @@
       </v-btn>
     </p>
     <p v-else>
-      <v-btn elevation="3" color="primary" @click="authorize">
+      <v-btn :loading="loading" elevation="3" color="primary" @click="authorize">
         Get Started
       </v-btn>
       <v-btn elevation="0" color="accent" plain>
@@ -59,6 +58,7 @@ export default {
   data () {
     return {
       dialog: false,
+      loading: true,
       userCode: null
     }
   },
@@ -72,6 +72,7 @@ export default {
   },
   mounted () {
     this.$store.commit('auth/LOAD_USER')
+    this.loading = false
   },
   methods: {
     authorize () {

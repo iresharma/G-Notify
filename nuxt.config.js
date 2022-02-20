@@ -1,3 +1,6 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
+import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -26,7 +29,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~plugins/editor', mode: 'client' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -100,7 +103,9 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    plugins: [new MonacoWebpackPlugin()]
+  },
 
   watch: ['~/api/*.js', '~/api/*/*.js']
 }

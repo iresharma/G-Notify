@@ -139,8 +139,6 @@ const sendMultipleMails = (
     msg.setTo(`<${recipients[0]}>`)
     msg.setBcc(recipients.slice(1))
 
-    console.log(msg.asRaw())
-
     const buffer = Buffer.from(msg.asRaw())
     const base64SafeString = buffer.toString('base64')
     AUTH_CLIENT.setCredentials(JSON.parse(token))

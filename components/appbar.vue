@@ -8,10 +8,11 @@
     <v-btn icon>
       <v-icon>mdi-github</v-icon>
     </v-btn>
-    <v-btn
+    <v-chip
       v-if="isLogged"
       elevation="0"
       color="secondary"
+      label
     >
       <v-avatar size="25" color="success">
         <v-icon dark>
@@ -21,7 +22,7 @@
       <b>
         {{ user.name }}
       </b>
-    </v-btn>
+    </v-chip>
     <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
       <v-icon>mdi-theme-light-dark</v-icon>
     </v-btn>

@@ -23,7 +23,23 @@
         </v-btn>
         <v-btn color="primary" text @click="$router.push('/templates/rules')">
           Templating Rules
-        </v-btn>
+        </v-btn><br><br>
+        <v-dialog
+          transition="dialog-bottom-transition"
+          max-width="600"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+            >
+              Embed Image(s)
+            </v-btn>
+          </template>
+          <template #default="dialog">
+            <Embed @exit="dialog.value = false;" />
+          </template>
+        </v-dialog>
       </v-col>
       <v-col>
         <v-row>
@@ -31,7 +47,7 @@
           <v-btn color="primary">
             Test
           </v-btn>
-          <v-btn color="primary" outlined @click="upload">
+          <v-btn color="primary" outlined style="margin-left: 0.3rem" @click="upload">
             Create
           </v-btn>
         </v-row>
@@ -45,58 +61,45 @@
     </v-row>
     <v-row no-gutters>
       <v-col>
-        <AceEditor
-          v-model="content"
-          lang="html"
-          theme="monokai"
-          width="100%"
-          height="75vh"
-          :options="{
-            enableBasicAutocompletion: true,
-            enableLiveAutocompletion: true,
-            fontSize: 14,
-            highlightActiveLine: true,
-            enableSnippets: true,
-            showLineNumbers: true,
-            tabSize: 2,
-            showPrintMargin: false,
-            showGutter: true
-          }"
-          :commands="[
-            {
-              name: 'save',
-              bindKey: { win: 'Ctrl-s', mac: 'Command-s' },
-              exec: dataSumit,
-              readOnly: true
-            }
-          ]"
-          @init="editorInit"
-        />
+        <client-only>
+          <MonacoEditor
+            :options="options"
+            custom-class="myClass"
+            custom-style="height:500px"
+            @onChange="onChange"
+          />
+        </client-only>
       </v-col>
-      <v-col style="padding: 2rem; overflow: hidden" v-html="content" />
+      <v-col style="padding: 2rem; overflow: hidden" v-html="options.value" />
     </v-row>
   </div>
 </template>
 
 <script>
-let AceEditor
-if (process.client) {
-  AceEditor = require('vue2-ace-editor')
-}
+import Embed from '@/components/embed'
 export default {
   components: {
-    AceEditor
+    Embed
   },
   layout: 'dashboard',
   data () {
     return {
       templateName: null,
-      content: `<h1>Hello</h1>
+      options: {
+        value: `<h1>Hello</h1>
 <h3>This is what your mail might look like</h3>
 <p> 
     But there are major rules when it comes html on emails. <br>
     <a href="/templates/rules" target="_blank">Here</a> is a guide to the same
 </p>`,
+        language: 'html',
+        fontSize: '13px',
+        automaticLayout: true,
+        theme: 'vs-dark',
+        roundedSelection: false,
+        scrollBeyondLastLine: false,
+        minimap: false
+      },
       makePublic: true
     }
   },
@@ -104,21 +107,13 @@ export default {
     title: 'Upload template'
   },
   methods: {
-    dataSumit () {
-      // code here
-    },
-    editorInit () {
-      require('brace/ext/language_tools') // language extension prerequsite...
-      require('brace/mode/html')
-      require('brace/mode/javascript') // language
-      require('brace/mode/less')
-      require('brace/theme/monokai')
-      require('brace/snippets/javascript') // snippet
+    onChange (newValue) {
+      this.options.value = newValue.value
     },
     upload () {
       this.$axios
         .post('/api/templates/createTemplate', {
-          content: this.content,
+          content: this.options.value,
           name: this.templateName,
           likes: 0,
           user: JSON.parse(localStorage.getItem('user'))._id,
