@@ -33,7 +33,12 @@ app.use('/emails', emailRouter)
 app.use('/tracking', trackerRouter)
 app.use('/files', fileManagerRouter)
 
-export default {
-  path: '/api',
-  handler: app
-}
+// export default {
+//   path: '/api',
+//   handler: app
+// }
+
+// export
+
+module.exports = app
+module.exports.handler = serverless(app)
