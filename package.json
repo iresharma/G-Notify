@@ -22,6 +22,7 @@
     "express-fileupload": "^1.2.1",
     "gg-vue-monaco-editor": "^1.0.1",
     "googleapis": "^39.2.0",
+    "handlebars": "^4.7.7",
     "mimetext": "^2.0.6",
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
