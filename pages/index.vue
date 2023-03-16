@@ -25,29 +25,6 @@
         Learn More
       </v-btn>
     </p>
-    <v-dialog v-model="dialog" persistent width="500">
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">Enter the code</span>
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="userCode"
-            label="Enter code from the other page"
-            required
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="sendCode">
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -57,9 +34,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      dialog: false,
-      loading: true,
-      userCode: null
+      loading: true
     }
   },
   head () {
@@ -73,6 +48,9 @@ export default {
   mounted () {
     this.$store.commit('auth/LOAD_USER')
     this.loading = false
+    if (this.$route.query.code) {
+      this.sendCode(this.$route.query.code)
+    }
   },
   methods: {
     authorize () {
@@ -95,12 +73,12 @@ export default {
           })
         })
     },
-    sendCode () {
+    sendCode (userCode) {
       this.$axios
         .post(
           '/api/auth',
           {
-            code: this.userCode
+            code: userCode
           },
           {
             params: {},
@@ -138,6 +116,8 @@ export default {
     font-size: 5rem;
     font-weight: bold;
     margin-bottom: 1rem;
+
+    text-shadow: 5px 5px rgb(241, 83, 83);
   }
 
   p {

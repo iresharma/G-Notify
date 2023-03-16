@@ -70,7 +70,9 @@
           />
         </client-only>
       </v-col>
-      <v-col style="padding: 2rem; overflow: hidden" v-html="options.value" />
+      <v-col style="overflow: hidden">
+        <iframe :srcdoc="content" frameborder="0" />
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -106,6 +108,11 @@ export default {
   head: {
     title: 'Upload template'
   },
+  computed: {
+    content () {
+      return `<html><head><style>body { color-scheme: light !important; background: white !important; }</style></head><body>${this.options.value}</body></html>`
+    }
+  },
   methods: {
     onChange (newValue) {
       this.options.value = newValue.value
@@ -138,3 +145,11 @@ export default {
   }
 }
 </script>
+
+<style lang="css">
+iframe {
+  width: 100%;
+  height: 100%;
+  color-scheme: light;
+}
+</style>

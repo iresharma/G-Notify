@@ -93,3 +93,4 @@ sw.*
 src/api/uploads/*
 
 bucket_key.json
+creds.json
