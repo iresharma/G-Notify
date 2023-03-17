@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <h1 style="color: #4285F4">
+    <h1>
       G-Notify
     </h1>
     <p>
       A simple gmail backed HTML mass mailer with a jam pack of features
     </p>
     <p v-if="isLogged">
-      <v-btn elevation="3" color="primary" @click="$router.push('/home')">
+      <v-btn outlined rounded color="primary" @click="$router.push('/home')">
         Dashboard
       </v-btn>
       <v-btn elevation="0" color="accent" plain href="https://github.com/iresharma/G-Notify">
@@ -18,7 +18,14 @@
       </v-btn>
     </p>
     <p v-else>
-      <v-btn :loading="loading" elevation="3" color="primary" @click="authorize">
+      <v-btn
+        outlined
+        rounded
+        :loading="loading"
+        elevation="3"
+        color="primary"
+        @click="authorize"
+      >
         Get Started
       </v-btn>
       <v-btn elevation="0" color="accent" plain>
@@ -113,15 +120,18 @@ export default {
   width: 100%;
 
   h1 {
-    font-size: 5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-
-    text-shadow: 5px 5px rgb(241, 83, 83);
+    text-align: center;
+    color: white;
+    font-size: 100px;
+    text-shadow: 5px 5px 1px #118ab2;
+    transition: text-shadow 0.25s linear;
+  }
+  h1:hover {
+    text-shadow: -5px -5px 1px #e63946;
   }
 
   p {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: normal;
   }
 }

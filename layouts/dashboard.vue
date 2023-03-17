@@ -5,7 +5,7 @@
       app
       permanent
       :mini-variant.sync="drawer"
-      class="blue white--text"
+      class="black white--text"
     >
       <v-list dense>
         <v-list-item

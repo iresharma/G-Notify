@@ -5,42 +5,57 @@
     <img
       :src="`/api/templates/renderTemplate?quality=low&id=${id}`"
       alt="rendered-out"
-      style="width:100%"
     >
     <div>
       <v-card-title>{{ name }}</v-card-title>
-      <v-card-subtitle class="pb-0">
-        Likes {{ likes }}
-      </v-card-subtitle>
       <v-card-text class="text--primary">
         {{ desc }}
       </v-card-text>
-      <v-card-actions>
-        <v-btn icon @click="$router.push(`/templates/create/${id}`)">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-        <v-btn icon @click="addLike(id)">
-          <v-icon>mdi-thumb-up-outline</v-icon>
-        </v-btn>
-        <v-dialog v-model="dialog">
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-code-tags</v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <pre>
-        <code v-highlight="templateContent" class="language-html" />
-      </pre>
-          </v-card>
-        </v-dialog>
+      <v-card-actions class="action-bar">
+        <div>
+          <v-chip
+            class="ma-2"
+            color="blue-grey"
+            label
+            text-color="white"
+            @click="addLike(id)"
+          >
+            <v-icon left>
+              mdi-thumb-up-outline
+            </v-icon>
+            {{ likes }}
+          </v-chip>
+          <v-btn icon @click="$router.push(`/templates/create/${id}`)">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-dialog v-model="dialog">
+            <template #activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon>mdi-code-tags</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <pre>
+              <code v-highlight="templateContent" class="language-html" />
+            </pre>
+            </v-card>
+          </v-dialog>
+        </div>
 
-        <v-btn color="primary" text @click="$router.push(`/emails/send/${id}`)">
-          Use
-        </v-btn>
-        <v-btn color="primary" outlined @click="sendTest">
-          Test
-        </v-btn>
+        <div>
+          <v-btn color="blue" text @click="$router.push(`/emails/send/${id}`)">
+            Use
+          </v-btn>
+          <v-btn
+            outlined
+            color="primary"
+            elevation="2"
+            small
+            @click="sendTest"
+          >
+            Test
+          </v-btn>
+        </div>
       </v-card-actions>
     </div>
   </v-card>
@@ -111,17 +126,29 @@ export default {
         })
     },
     toBase64 (arr) {
-      // arr = new Uint8Array(arr) // if it's an ArrayBuffer
       return btoa(
         arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
       )
     },
     addLike (id) {
       this.$axios.get(`/api/templates/${id}/like`).then((response) => {
-        console.log(response.data)
         this.$emit('updateLikes', response.data.likes)
       })
     }
   }
 }
 </script>
+
+<style scoped lang="scss">
+img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

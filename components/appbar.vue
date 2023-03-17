@@ -3,7 +3,9 @@
     app
   >
     <v-app-bar-nav-icon v-if="side" @click="$store.commit('systemConfig/TOGGLE_DRAWER')" />
-    <v-toolbar-title>G-Notify</v-toolbar-title>
+    <v-toolbar-title class="logo">
+      G-Notify
+    </v-toolbar-title>
     <v-spacer />
     <v-btn icon>
       <v-icon>mdi-github</v-icon>
@@ -11,14 +13,9 @@
     <v-chip
       v-if="isLogged"
       elevation="0"
-      color="secondary"
-      label
+      color="blue"
+      outlined
     >
-      <v-avatar size="25" color="success">
-        <v-icon dark>
-          mdi-account-circle
-        </v-icon>
-      </v-avatar>
       <b>
         {{ user.name }}
       </b>
