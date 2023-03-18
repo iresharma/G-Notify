@@ -9,14 +9,16 @@ We directly contact GAPIs to send the mail.
 
 [G-notify](https://g-notify.netlify.app) [![Netlify Status](https://api.netlify.com/api/v1/badges/fff5718f-e1d1-49ca-94e1-f9bf0b2499b4/deploy-status)](https://app.netlify.com/sites/g-notify/deploys)
 
+** The above hosted version on netify is not supported anymore **
+
 ## Features
 - [x] Template collection 
 - [x] create template -
 - [x] upload template 
 - [x] send single template 
 - [x] send multiple template 
-- [x] asset management for people to upload files for hosting, basically a cdn mainly for images but also supports other things
-- [ ] tracking
+- [~] asset management for people to upload files for hosting, basically a cdn mainly for images but also supports other things (untested after new gcp configs)
+- [x] tracking
 - [ ] stats
 ## how to start using
 - create a .env file with the following variables
@@ -27,6 +29,7 @@ We directly contact GAPIs to send the mail.
     dbURI="your mongodb url"
     BASEURL="http://localhost:3000"
     BUCKET_NAME="your gcp bucket name"
+    DOMAIN="your server domain/IP address"
   ```
 
   **you'd also need a service account json named `bucket_key.json`  with suitable permissions and saved in the root folder of the project**
