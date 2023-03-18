@@ -155,6 +155,22 @@ const getEmailById = (id) => {
   })
 }
 
+const addEmailRead = (id, email) => {
+  return new Promise((resolve, reject) => {
+    getEmailById(id).then((result) => {
+      const user = result.recipients.filter(recipient => recipient.email === email)
+      const otherUsers = result.recipients.filter(recipient => recipient.email !== email)
+      user[0].read = true
+      user[0].readTime = Date.now()
+      result.recipients = [...otherUsers, user[0]]
+      emailModel.updateOne({ _id: id }, result).exec((err, email) => {
+        if (err) { return reject(err) }
+        return resolve(email)
+      })
+    })
+  })
+}
+
 const getFileByUserId = (id) => {
   return new Promise((resolve, reject) => {
     fileModel.find({ userId: id }).exec((err, files) => {
@@ -192,5 +208,6 @@ module.exports = {
   getEmailsByUser,
   getEmailById,
   getFileByUserId,
-  addFiles
+  addFiles,
+  addEmailRead
 }

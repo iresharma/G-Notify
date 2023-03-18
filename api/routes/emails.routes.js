@@ -27,7 +27,14 @@ router.get('/sendTest', async (req, res) => {
   // console.log(user)
   const template = await dbFunction.getTemplate(templateId)
   try {
-    emailFunction.sendSingleMessage(JSON.stringify(user.token), template.content, user.user.email, user.user.email, 'Test Email from G-Notify', 'plainText')
+    emailFunction.sendSingleMessage(
+      JSON.stringify(user.token),
+      template.content,
+      user.user.email,
+      user.user.email,
+      'Test Email from G-Notify',
+      'plainText'
+    )
   } catch (err) {
     // console.log(err)
   }
@@ -36,7 +43,12 @@ router.get('/sendTest', async (req, res) => {
 
 router.post('/importExcel', upload.single('excel'), async (req, res) => {
   try {
-    const list = await fileHandler.readExcel(req.file.path.split('/').pop().replace(' ', '+'))
+    const list = await fileHandler.readExcel(
+      req.file.path
+        .split('/')
+        .pop()
+        .replace(' ', '+')
+    )
     return res.status(200).send({ list })
   } catch (err) {
     console.log(err)
@@ -45,20 +57,46 @@ router.post('/importExcel', upload.single('excel'), async (req, res) => {
 })
 
 router.post('/sendEmails', async (req, res) => {
-  const { templateId, subject, emails, enableTracking } = req.body
+  const { templateId, subject, emails, tracking } = req.body
   const template = await dbFunction.getTemplate(templateId)
   const user = await dbFunction.getUserDataById(req.query.userId)
-  const email = await dbFunction.createEmail(templateId, user.user.email, emails, subject)
-  if (enableTracking) {
+  const email = await dbFunction.createEmail(
+    templateId,
+    user.user.email,
+    emails,
+    subject
+  )
+  if (tracking) {
     try {
-      // await tracking
+      const promises = emails.map(emailId =>
+        emailFunction.sendSingleMessage(
+          JSON.stringify(user.token),
+          template.content +
+            `<img src="${process.env.DOMAIN}/api/tracking/${email._id}/${emailId}" />`,
+          emailId,
+          user.email,
+          subject,
+          template.plainText
+        )
+      )
+      await Promise.all(promises)
+      return res
+        .status(200)
+        .send({ message: 'Emails sent with tracking', emailId: email._id })
     } catch (err) {
       console.log(err)
       return res.status(500).send({ err })
     }
   }
   try {
-    await emailFunction.sendMultipleMails(JSON.stringify(user.token), template.content, emails, user.user.email, subject, template.plainText)
+    await emailFunction.sendMultipleMails(
+      JSON.stringify(user.token),
+      template.content,
+      emails,
+      user.user.email,
+      subject,
+      template.plainText
+    )
     return res.status(200).send({ message: 'Emails sent', emailId: email._id })
   } catch (err) {
     console.log(err)

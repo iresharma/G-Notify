@@ -38,4 +38,8 @@ const unlinkFile = (file) => {
   fs.unlink(`${dir}/upload/${file}`, (_, __) => console.info)
 }
 
-module.exports = { readTemplate, readExcel, uploadFile, unlinkFile }
+const trackerFilePath = () => {
+  return `${dir}/assets/trackerImage.png`
+}
+
+module.exports = { readTemplate, readExcel, uploadFile, unlinkFile, trackerFilePath }
