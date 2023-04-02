@@ -73,7 +73,7 @@ export default {
         { title: 'Templates', icon: 'mdi-view-dashboard', to: '/templates' },
         { title: 'Templating Rules', icon: 'mdi-book-variant', to: '/templates/rules' },
         { title: 'Mail', icon: 'mdi-at', to: '/emails' },
-        { title: 'Assets', icon: 'mdi-file', to: '/assets' }
+//        { title: 'Assets', icon: 'mdi-file', to: '/assets' }
       ]
     }
   },

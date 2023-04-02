@@ -35,9 +35,9 @@
               </v-btn>
             </template>
             <v-card>
-              <pre>
-              <code v-highlight="templateContent" class="language-html" />
-            </pre>
+              <pre class="language-html">
+                <code v-highlight="templateContent" />
+              </pre>
             </v-card>
           </v-dialog>
         </div>

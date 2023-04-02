@@ -44,6 +44,7 @@
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
+    "vue-prism": "^1.0.5",
     "vue2-ace-editor": "0.0.15"
   }
 }
