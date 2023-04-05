@@ -11,7 +11,7 @@
           </v-card-text>
         </v-card>
         <v-data-table
-          :headers="[{text: 'Email Id', value: 'email'}, {text: 'Status', value: 'read'}]"
+          :headers="[{text: 'Email Id', value: 'email'}]"
           :items="email.recipients"
         />
       </v-col>

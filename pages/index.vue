@@ -70,7 +70,7 @@ export default {
         })
         .then((response) => {
           this.dialog = true
-          window.open(response.data, '_blank')
+          window.open(response.data, 'self')
         })
         .catch((error) => {
           this.$store.commit('systemConfig/SNACKBAR', {
