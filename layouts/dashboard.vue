@@ -2,9 +2,9 @@
   <v-app dark>
     <app-bar :side="true" />
     <v-navigation-drawer
+      :mini-variant.sync="drawer"
       app
       permanent
-      :mini-variant.sync="drawer"
       class="black white--text"
     >
       <v-list dense>
@@ -31,7 +31,7 @@
           v-if="!drawer"
           style="position: absolute; bottom: 2rem; right: 1rem;"
           icon
-          @click.stop="drawer = !drawer"
+          @click.stop="toggleDrawer"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 import CustFooter from '@/components/footer.vue'
 import AppBar from '@/components/appbar.vue'
 
@@ -73,19 +73,14 @@ export default {
         { title: 'Templates', icon: 'mdi-view-dashboard', to: '/templates' },
         { title: 'Templating Rules', icon: 'mdi-book-variant', to: '/templates/rules' },
         { title: 'Mail', icon: 'mdi-at', to: '/emails' },
-//        { title: 'Assets', icon: 'mdi-file', to: '/assets' }
+        { title: 'Assets', icon: 'mdi-file', to: '/assets' }
       ]
     }
   },
   computed: {
-    drawer: {
-      get () {
-        return this.$store.getters['systemConfig/drawer']
-      },
-      set () {
-        this.$store.commit('systemConfig/TOGGLE_DRAWER')
-      }
-    },
+    ...mapGetters({
+      drawer: 'systemConfig/drawer'
+    }),
     snackbar: {
       get () {
         return this.$store.getters['systemConfig/snackbar']
@@ -97,6 +92,11 @@ export default {
   },
   beforeMount () {
     this.$store.commit('auth/LOAD_USER')
+  },
+  methods: {
+    toggleDrawer () {
+      this.$store.commit('systemConfig/TOGGLE_DRAWER')
+    }
   }
 }
 </script>

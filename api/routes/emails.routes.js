@@ -114,4 +114,10 @@ router.get('/:id', async (req, res) => {
   return res.status(200).send({ email })
 })
 
+router.get('/stats/all', async (req, res) => {
+  const totalCount = await dbFunction.getTotalEmailStats()
+  const readCount = await dbFunction.getReadEmailStats()
+  return res.status(200).send({ totalCount, readCount })
+})
+
 module.exports = router

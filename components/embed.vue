@@ -42,6 +42,9 @@
       />
     </v-card-text>
     <v-card-actions class="justify-end">
+      <v-btn v-if="requestComplete" @click="copyEmbedScript">
+        copy
+      </v-btn>
       <v-btn
         text
         @click="$emit('exit')"
@@ -64,7 +67,7 @@ export default {
     AceEditor
   },
   data () {
-    return { content: '<img src="embed link" />', files: [] }
+    return { content: '<img src="embed link" />', files: [], requestComplete: false }
   },
   computed: {
     ...mapGetters({
@@ -74,6 +77,9 @@ export default {
   methods: {
     dataSumit () {
     // code here
+    },
+    copyEmbedScript () {
+      navigator.clipboard.writeText(this.content)
     },
     editorInit () {
       require('brace/ext/language_tools') // language extension prerequsite...
@@ -112,6 +118,7 @@ export default {
               return `<img src="${link.data[0]}" />`
             }).join('\n')
           })
+          this.requestComplete = true
         })
         .catch((error) => {
           this.$store.commit('systemConfig/SNACKBAR', {

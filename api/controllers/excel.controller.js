@@ -19,7 +19,7 @@ const excelToList = (path) => {
     console.log(path)
     readXlsxFile(path).then((rows) => {
       rows[0].forEach((row, index) => {
-        if (row != null) {
+        if (row !== null && typeof row !== 'undefined') {
           if (VALID_COLUMNS.includes(row.toLowerCase())) {
             resolve(rows.map(row => row[index]))
           }

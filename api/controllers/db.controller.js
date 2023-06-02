@@ -194,6 +194,44 @@ const addFiles = async (userId, files) => {
     fileModel.find({ user: userId }).then(resolve).catch(reject)
   })
 }
+const getTotalEmailStats = () => {
+  return new Promise((resolve, reject) => {
+    emailModel.aggregate([
+      {
+        $unwind: {
+          path: '$recipients'
+        }
+      },
+      {
+        $count: 'totalCount'
+      }
+    ]).exec().then((result) => {
+      resolve(result)
+    }).catch(reject)
+  })
+}
+
+const getReadEmailStats = () => {
+  return new Promise((resolve, reject) => {
+    emailModel.aggregate([
+      {
+        $unwind: {
+          path: '$recipients'
+        }
+      },
+      {
+        $match: {
+          'recipients.read': true
+        }
+      },
+      {
+        $count: 'readCount'
+      }
+    ]).exec().then((result) => {
+      resolve(result)
+    }).catch(reject)
+  })
+}
 
 module.exports = {
   getUserData,
@@ -209,5 +247,7 @@ module.exports = {
   getEmailById,
   getFileByUserId,
   addFiles,
-  addEmailRead
+  addEmailRead,
+  getTotalEmailStats,
+  getReadEmailStats
 }

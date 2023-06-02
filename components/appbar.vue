@@ -2,7 +2,7 @@
   <v-app-bar
     app
   >
-    <v-app-bar-nav-icon v-if="side" @click="$store.commit('systemConfig/TOGGLE_DRAWER')" />
+    <v-app-bar-nav-icon v-if="side" @click="toggleDrawer" />
     <v-toolbar-title class="logo">
       G-Notify
     </v-toolbar-title>
@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   props: {
     side: {
@@ -37,8 +35,15 @@ export default {
       default: false
     }
   },
-  computed: {
-    ...mapGetters({ isLogged: 'auth/isLogged', user: 'auth/user' })
+  data () {
+    return {
+      drawer: true
+    }
+  },
+  methods: {
+    toggleDrawer () {
+      this.$store.commit('systemConfig/TOGGLE_DRAWER')
+    }
   }
 }
 </script>
